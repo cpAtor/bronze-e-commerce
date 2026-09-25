@@ -26,182 +26,144 @@ export function Navigation() {
   }, []);
 
   const navLinks = [
-    { href: '#shop', label: 'Shop Wares' },
-    { href: '#custom', label: 'Bespoke Commissions' },
-    { href: '#craft', label: 'Craft & Metallurgy' },
-    { href: '#story', label: 'Atelier Story' },
-    { href: '/orders', label: 'My Orders' },
+    { href: '#shop', label: 'Bestsellers' },
+    { href: '#lifestyle', label: 'Lifestyle Wares' },
+    { href: '#custom', label: 'Sanctum Commissions' },
+    { href: '#story', label: 'About Us' },
+    { href: '/orders', label: 'Track Order' },
   ];
 
   return (
     <>
-      {/* Heritage Announcement Bar */}
-      <div className="bg-heritage-darker text-heritage-cream/80 text-[11px] font-medium tracking-[0.15em] uppercase py-2.5 px-4 text-center border-b border-heritage-border-light select-none">
-        Complimentary insured shipping on orders ₹2,500+ &bull; Hand-cast Panchaloha from Swamimalai
-      </div>
-
-      {/* Sticky Header */}
+      {/* Sticky Clean Heritage Header */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-heritage-dark/95 backdrop-blur-md border-b border-heritage-border shadow-lg shadow-black/20'
-            : 'bg-heritage-dark border-b border-heritage-border/80'
+            ? 'bg-heritage-dark/95 backdrop-blur-md border-b border-heritage-border-light shadow-md shadow-black/20'
+            : 'bg-heritage-dark border-b border-heritage-border-light'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo / Brand Name */}
-            <Link
-              href="/"
-              className="flex items-center gap-3 text-heritage-cream group"
-              aria-label="Heritage Storefront"
-            >
-              <div className="w-9 h-9 rounded-full border border-heritage-border flex items-center justify-center font-heading font-medium text-xs tracking-wider text-heritage-cream bg-heritage-surface group-hover:border-heritage-cream transition-colors">
-                HB
-              </div>
-              <div className="flex flex-col">
-                <span className="font-heading tracking-[0.2em] text-base sm:text-lg font-semibold uppercase text-heritage-cream">
-                  Heritage
-                </span>
-                <span className="text-[10px] tracking-[0.22em] uppercase text-heritage-muted font-normal">
-                  Swamimalai Atelier
-                </span>
-              </div>
-            </Link>
-
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center space-x-9">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-normal tracking-[0.04em] text-heritage-cream/85 hover:text-heritage-cream transition-colors relative py-1 group"
-                >
-                  {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-heritage-cream transition-all duration-300 group-hover:w-full" />
-                </a>
-              ))}
-            </nav>
-
-            {/* Desktop Right Utilities */}
-            <div className="hidden md:flex items-center gap-5">
-              <a
-                href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tap-target px-4 py-2 text-xs font-medium tracking-[0.08em] uppercase text-heritage-cream border border-heritage-border rounded-full hover:bg-heritage-cream/10 transition-colors flex items-center gap-2"
-                title="Direct consultation with master artisan"
+          <div className="flex items-center justify-between h-16 sm:h-20">
+            {/* Left: Hamburger & Search */}
+            <div className="flex items-center gap-2 sm:gap-4">
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                className="tap-target p-2 text-heritage-cream/90 hover:text-heritage-cream transition-colors"
+                aria-expanded={mobileMenuOpen}
+                aria-label="Open menu"
               >
-                <Phone className="w-3.5 h-3.5" />
-                <span>Consultation</span>
-              </a>
-
-              <Link
-                href="/auth/signin"
-                className="tap-target text-heritage-cream/80 hover:text-heritage-cream transition-colors p-2"
-                aria-label="Sign In"
-              >
-                <User className="w-5 h-5" />
-              </Link>
-
+                <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
               <a
                 href="#shop"
-                className="tap-target text-heritage-cream/80 hover:text-heritage-cream transition-colors p-2 relative"
-                aria-label="View Cart"
+                className="tap-target p-2 text-heritage-cream/90 hover:text-heritage-cream transition-colors"
+                aria-label="Search"
               >
-                <ShoppingBag className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-4 h-4 bg-heritage-cream text-heritage-dark text-[10px] font-bold rounded-full flex items-center justify-center">
-                  0
-                </span>
+                <Search className="w-5 h-5" />
               </a>
             </div>
 
-            {/* Mobile Actions */}
-            <div className="flex items-center lg:hidden gap-2">
+            {/* Center: Brand Monogram / Logo */}
+            <Link
+              href="/"
+              className="flex items-center justify-center group"
+              aria-label="Heritage Storefront"
+            >
+              <div className="flex flex-col items-center">
+                {/* Minimalist Heritage Monogram */}
+                <div className="text-xl sm:text-2xl font-serif font-bold tracking-[0.25em] text-heritage-cream uppercase transition-transform group-hover:scale-105">
+                  Heritage
+                </div>
+              </div>
+            </Link>
+
+            {/* Right: Account & Cart */}
+            <div className="flex items-center gap-1 sm:gap-3">
+              <Link
+                href="/auth/signin"
+                className="tap-target text-heritage-cream/90 hover:text-heritage-cream transition-colors p-2"
+                aria-label="Account"
+              >
+                <User className="w-5 h-5" />
+              </Link>
               <a
                 href="#shop"
-                className="tap-target text-heritage-cream p-2 relative"
+                className="tap-target text-heritage-cream/90 hover:text-heritage-cream transition-colors p-2 relative"
                 aria-label="Cart"
               >
                 <ShoppingBag className="w-5 h-5" />
+                <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-heritage-cream text-heritage-dark text-[9px] font-bold rounded-full flex items-center justify-center">
+                  0
+                </span>
               </a>
-
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="tap-target p-2 text-heritage-cream rounded-lg hover:bg-heritage-surface transition-colors"
-                aria-expanded={mobileMenuOpen}
-                aria-label="Toggle navigation"
-              >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Slide-Out Drawer */}
+      {/* Slide-out Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-end">
+        <div className="fixed inset-0 z-50 flex">
+          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
 
-          <div className="relative bg-heritage-dark border-t border-heritage-border rounded-t-3xl shadow-2xl p-6 z-10 max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 border-b border-heritage-border">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full border border-heritage-border flex items-center justify-center font-heading text-xs text-heritage-cream bg-heritage-surface">
-                  HB
-                </div>
-                <span className="font-heading font-semibold text-heritage-cream text-base tracking-[0.15em] uppercase">
+          {/* Side Drawer Content */}
+          <div className="relative w-full max-w-sm bg-heritage-dark border-r border-heritage-border h-full z-10 flex flex-col justify-between p-6 sm:p-8 overflow-y-auto">
+            <div>
+              <div className="flex items-center justify-between pb-6 border-b border-heritage-border">
+                <span className="font-heading font-medium tracking-[0.2em] text-lg text-heritage-cream uppercase">
                   Heritage
                 </span>
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="tap-target p-2 text-heritage-cream/70 hover:text-heritage-cream"
+                  aria-label="Close menu"
+                >
+                  <X className="w-6 h-6" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(false)}
-                className="tap-target p-2 text-heritage-cream/70 hover:text-heritage-cream"
-                aria-label="Close menu"
-              >
-                <X className="w-6 h-6" />
-              </button>
+
+              <nav className="mt-8 flex flex-col space-y-4">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="tap-target justify-between text-xl font-light text-heritage-cream hover:text-heritage-cream-hover transition-colors py-2"
+                  >
+                    <span>{link.label}</span>
+                    <ArrowRight className="w-4 h-4 text-heritage-muted" />
+                  </a>
+                ))}
+              </nav>
             </div>
 
-            <nav className="mt-6 flex flex-col space-y-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="tap-target w-full justify-between px-3 text-lg font-normal text-heritage-cream hover:text-heritage-cream-hover transition-colors border-b border-heritage-border-light py-4"
-                >
-                  <span>{link.label}</span>
-                  <ArrowRight className="w-4 h-4 text-heritage-muted" />
-                </a>
-              ))}
-            </nav>
-
-            <div className="mt-8 pt-6 border-t border-heritage-border space-y-3">
+            <div className="pt-8 border-t border-heritage-border space-y-3">
               <a
                 href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="button-primary w-full"
+                className="button-primary w-full text-xs"
               >
-                <Phone className="w-4 h-4 mr-2" />
-                <span>Contact Sthapati via WhatsApp</span>
+                <Phone className="w-3.5 h-3.5 mr-2" />
+                <span>WhatsApp Sthapati</span>
               </a>
 
               <Link
                 href="/auth/signin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="button-secondary w-full"
+                className="button-secondary w-full text-xs"
               >
-                <User className="w-4 h-4 mr-2" />
-                <span>Sign In to Account</span>
+                <User className="w-3.5 h-3.5 mr-2" />
+                <span>Sign In / Customer Portal</span>
               </Link>
             </div>
           </div>

@@ -54,23 +54,31 @@ warn() { printf '  %s⚠ %s%s\n' "$YELLOW" "$1" "$RESET"; }
 open_url() {
   local url="$1"
   printf '  %s↗ opening%s %s\n' "$GREEN" "$RESET" "$url"
-  { if   command -v wslview     >/dev/null 2>&1; then wslview "$url"
-    elif command -v explorer.exe >/dev/null 2>&1; then explorer.exe "$url"
-    elif command -v xdg-open    >/dev/null 2>&1; then xdg-open "$url"
-    elif command -v open        >/dev/null 2>&1; then open "$url"
+  { if   command -v wslview     >/dev/null 2>&1; then nohup wslview "$url" </dev/null >/dev/null 2>&1 &
+    elif command -v explorer.exe >/dev/null 2>&1; then nohup explorer.exe "$url" </dev/null >/dev/null 2>&1 &
+    elif command -v xdg-open    >/dev/null 2>&1; then nohup xdg-open "$url" </dev/null >/dev/null 2>&1 &
+    elif command -v open        >/dev/null 2>&1; then nohup open "$url" </dev/null >/dev/null 2>&1 &
     else warn "couldn't open a browser; visit it manually: $url"; fi
   } >/dev/null 2>&1 || warn "couldn't open a browser, so visit it manually: $url"
 }
 
 pause() {
   printf '  %s%s%s ' "$DIM" "${1:-Press Enter to continue}" "$RESET"
-  read -r _ || true
+  if [[ -r /dev/tty ]]; then
+    read -r _ </dev/tty || true
+  else
+    read -r _ || true
+  fi
 }
 
 confirm() {
   local reply=""
   printf '  %s? %s [y/N] ' "$YELLOW" "$1"
-  read -r reply || true
+  if [[ -r /dev/tty ]]; then
+    read -r reply </dev/tty || true
+  else
+    read -r reply || true
+  fi
   [[ "$reply" =~ ^[Yy] ]]
 }
 
@@ -88,7 +96,11 @@ ask() {
   else
     printf '  %s%s%s ' "$BOLD" "$prompt" "$RESET"
   fi
-  read -r input || true
+  if [[ -r /dev/tty ]]; then
+    read -r input </dev/tty || true
+  else
+    read -r input || true
+  fi
   [[ -z "$input" && -n "$current" ]] && input="$current"
   printf -v "$key" '%s' "$input"
 }
@@ -101,7 +113,11 @@ ask_secret() {
   else
     printf '  %s%s%s ' "$BOLD" "$prompt" "$RESET"
   fi
-  read -rs input || true
+  if [[ -r /dev/tty ]]; then
+    read -rs input </dev/tty || true
+  else
+    read -rs input || true
+  fi
   printf '\n'
   [[ -z "$input" && -n "$current" ]] && input="$current"
   printf -v "$key" '%s' "$input"

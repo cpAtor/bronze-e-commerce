@@ -13,85 +13,22 @@ import type {
   CommissionInquiry,
   Customer,
   StoreSnapshot,
+  CreateOrderInput,
+  SubmitCommissionInquiryInput,
+  CreateProductInput,
+  UpdateProductInput,
+  CreatePortfolioPieceInput,
+  UpdatePortfolioPieceInput,
 } from './types';
 
-// Inputs
-export interface CreateOrderInput {
-  customerId: string;
-  items: Array<{
-    productId: string;
-    quantity: number;
-  }>;
-  shippingAddress: {
-    fullName: string;
-    addressLine1: string;
-    addressLine2?: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    country: string;
-    phone?: string;
-  };
-}
-
-export interface SubmitCommissionInquiryInput {
-  customerId: string;
-  itemType: string;
-  deityIconography: string;
-  dimensions: string;
-  finishPreference: string;
-  targetDate: string;
-  phoneNumber: string;
-  inspiredByPortfolioId?: string | null;
-}
-
-export interface CreateProductInput {
-  name: string;
-  slug: string;
-  description: string;
-  pricePaise: number;
-  weight: string;
-  dimensions: string;
-  alloyDescription: string;
-  careGuide: string;
-  stockQuantity: number;
-  images: string[];
-}
-
-export interface UpdateProductInput {
-  name?: string;
-  slug?: string;
-  description?: string;
-  pricePaise?: number;
-  weight?: string;
-  dimensions?: string;
-  alloyDescription?: string;
-  careGuide?: string;
-  stockQuantity?: number;
-  images?: string[];
-}
-
-export interface CreatePortfolioPieceInput {
-  name: string;
-  slug: string;
-  description: string;
-  referenceDimensions: string;
-  castingTechnique: string;
-  finishOptions: string[];
-  typicalLeadTime: string;
-  images: string[];
-}
-
-export interface UpdatePortfolioPieceInput {
-  name?: string;
-  slug?: string;
-  description?: string;
-  referenceDimensions?: string;
-  castingTechnique?: string;
-  finishOptions?: string[];
-  typicalLeadTime?: string;
-  images?: string[];
-}
+export type {
+  CreateOrderInput,
+  SubmitCommissionInquiryInput,
+  CreateProductInput,
+  UpdateProductInput,
+  CreatePortfolioPieceInput,
+  UpdatePortfolioPieceInput,
+};
 
 /**
  * Customer-facing catalog & purchase operations.

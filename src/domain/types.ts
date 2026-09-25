@@ -91,6 +91,11 @@ export interface Customer {
   createdAt: number;
 }
 
+export interface CartItem {
+  product: PredefinedProduct;
+  quantity: number;
+}
+
 export interface StoreSnapshot {
   version: string;
   exportedAt: number;
@@ -99,4 +104,78 @@ export interface StoreSnapshot {
   orders: Order[];
   commissionInquiries: CommissionInquiry[];
   customers: Customer[];
+}
+
+// Input DTOs
+export interface CreateOrderInput {
+  customerId?: string;
+  customerEmail: string;
+  customerName: string;
+  customerPhone?: string;
+  items: Array<{
+    productId: string;
+    quantity: number;
+  }>;
+  shippingAddress: ShippingAddress;
+}
+
+export interface SubmitCommissionInquiryInput {
+  customerId?: string;
+  customerName?: string;
+  customerEmail?: string;
+  phoneNumber: string;
+  itemType: string;
+  deityIconography: string;
+  dimensions: string;
+  finishPreference: string;
+  targetDate: string;
+  inspiredByPortfolioId?: string | null;
+}
+
+export interface CreateProductInput {
+  name: string;
+  slug: string;
+  description: string;
+  pricePaise: number;
+  weight: string;
+  dimensions: string;
+  alloyDescription: string;
+  careGuide: string;
+  stockQuantity: number;
+  images: string[];
+}
+
+export interface UpdateProductInput {
+  name?: string;
+  slug?: string;
+  description?: string;
+  pricePaise?: number;
+  weight?: string;
+  dimensions?: string;
+  alloyDescription?: string;
+  careGuide?: string;
+  stockQuantity?: number;
+  images?: string[];
+}
+
+export interface CreatePortfolioPieceInput {
+  name: string;
+  slug: string;
+  description: string;
+  referenceDimensions: string;
+  castingTechnique: string;
+  finishOptions: string[];
+  typicalLeadTime: string;
+  images: string[];
+}
+
+export interface UpdatePortfolioPieceInput {
+  name?: string;
+  slug?: string;
+  description?: string;
+  referenceDimensions?: string;
+  castingTechnique?: string;
+  finishOptions?: string[];
+  typicalLeadTime?: string;
+  images?: string[];
 }

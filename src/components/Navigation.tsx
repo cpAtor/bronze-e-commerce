@@ -26,11 +26,10 @@ export function Navigation() {
   }, []);
 
   const navLinks = [
-    { href: '#shop', label: 'Bestsellers' },
-    { href: '#lifestyle', label: 'Lifestyle Wares' },
-    { href: '#custom', label: 'Sanctum Commissions' },
-    { href: '#story', label: 'About Us' },
+    { href: '/shop', label: 'Bestsellers & Wares' },
+    { href: '/custom-work', label: 'Sanctum Commissions' },
     { href: '/orders', label: 'Track Order' },
+    { href: '/admin', label: 'Admin Portal' },
   ];
 
   return (
@@ -56,13 +55,13 @@ export function Navigation() {
               >
                 <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
-              <a
-                href="#shop"
+              <Link
+                href="/shop"
                 className="tap-target p-2 text-heritage-cream/90 hover:text-heritage-cream transition-colors"
                 aria-label="Search"
               >
                 <Search className="w-5 h-5" />
-              </a>
+              </Link>
             </div>
 
             {/* Center: Brand Monogram / Logo */}
@@ -88,8 +87,8 @@ export function Navigation() {
               >
                 <User className="w-5 h-5" />
               </Link>
-              <a
-                href="#shop"
+              <Link
+                href="/shop"
                 className="tap-target text-heritage-cream/90 hover:text-heritage-cream transition-colors p-2 relative"
                 aria-label="Cart"
               >
@@ -97,7 +96,7 @@ export function Navigation() {
                 <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-heritage-cream text-heritage-dark text-[9px] font-bold rounded-full flex items-center justify-center">
                   0
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -132,7 +131,7 @@ export function Navigation() {
 
               <nav className="mt-8 flex flex-col space-y-4">
                 {navLinks.map((link) => (
-                  <a
+                  <Link
                     key={link.label}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
@@ -140,7 +139,7 @@ export function Navigation() {
                   >
                     <span>{link.label}</span>
                     <ArrowRight className="w-4 h-4 text-heritage-muted" />
-                  </a>
+                  </Link>
                 ))}
               </nav>
             </div>

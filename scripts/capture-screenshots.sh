@@ -8,9 +8,8 @@ set -euo pipefail
 PORT="${1:-3000}"
 TASK="${2:-all}"
 BASE_URL="http://localhost:${PORT}"
-OUT_DIR=".scratch/screenshots/${TASK}"
-
-mkdir -p "${OUT_DIR}"
+mkdir -p ".scratch/screenshots/${TASK}"
+OUT_DIR="$(cd ".scratch/screenshots/${TASK}" && pwd)"
 
 capture() {
   local route="$1"
@@ -24,7 +23,7 @@ capture() {
   tmp_profile=$(mktemp -d)
   
   echo "Capturing ${url} at ${width}x${height} -> ${outfile}..."
-  firefox --headless --profile "${tmp_profile}" --screenshot "${outfile}" --window-size "${width},${height}" "${url}" >/dev/null 2>&1 || true
+  firefox --no-remote --headless --profile "${tmp_profile}" --screenshot "${outfile}" --window-size "${width},${height}" "${url}" >/dev/null 2>&1 || true
   rm -rf "${tmp_profile}"
 }
 

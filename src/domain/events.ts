@@ -10,9 +10,6 @@ export type DomainEventType =
   | 'product.created'
   | 'product.updated'
   | 'product.deleted'
-  | 'portfolio.created'
-  | 'portfolio.updated'
-  | 'portfolio.deleted'
   | 'snapshot.exported'
   | 'snapshot.restored';
 
@@ -28,7 +25,7 @@ export interface DomainEventLog<T = unknown> {
  * Generate a lightweight random correlation ID if none is supplied.
  */
 export function generateCorrelationId(): string {
-  return `cid-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 8)}`;
+  return `correlation-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 8)}`;
 }
 
 /**

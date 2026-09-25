@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, ShoppingBag, Sparkles, User, Phone } from 'lucide-react';
+import { ADMIN_CONFIG } from '@/lib/config';
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -78,7 +79,7 @@ export function Navigation() {
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center gap-4">
               <a
-                href="https://wa.me/919876543210"
+                href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="tap-target px-4 text-xs font-semibold uppercase tracking-wider text-bronze-700 bg-parchment-200 hover:bg-parchment-300 rounded-full transition-colors flex items-center gap-2"
@@ -171,7 +172,7 @@ export function Navigation() {
 
             <div className="mt-8 pt-6 border-t border-parchment-200 space-y-3">
               <a
-                href="https://wa.me/919876543210"
+                href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}

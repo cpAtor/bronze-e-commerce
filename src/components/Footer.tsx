@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { Mail, Phone, MessageSquare, ShieldCheck, Hammer, Flame } from 'lucide-react';
+import { ADMIN_CONFIG } from '@/lib/config';
 
 export function Footer() {
+  const cleanPhone = ADMIN_CONFIG.phone.replace(/[^0-9]/g, '');
+
   return (
     <footer className="bg-bronze-950 text-parchment-200 border-t border-bronze-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -46,31 +49,31 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <a
-                  href="https://wa.me/919876543210"
+                  href={`https://wa.me/${cleanPhone}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="tap-target justify-start gap-2.5 text-parchment-200 hover:text-gold-400 transition-colors"
                 >
                   <MessageSquare className="w-4 h-4 text-emerald-400" />
-                  <span>WhatsApp: +91 98765 43210</span>
+                  <span>WhatsApp: {ADMIN_CONFIG.phone}</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+919876543210"
+                  href={`tel:${ADMIN_CONFIG.phone}`}
                   className="tap-target justify-start gap-2.5 text-parchment-200 hover:text-gold-400 transition-colors"
                 >
                   <Phone className="w-4 h-4 text-gold-400" />
-                  <span>Phone: +91 98765 43210</span>
+                  <span>Phone: {ADMIN_CONFIG.phone}</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:contact@heritagebronze.in"
+                  href={`mailto:${ADMIN_CONFIG.email}`}
                   className="tap-target justify-start gap-2.5 text-parchment-200 hover:text-gold-400 transition-colors"
                 >
                   <Mail className="w-4 h-4 text-gold-400" />
-                  <span>contact@heritagebronze.in</span>
+                  <span>{ADMIN_CONFIG.email}</span>
                 </a>
               </li>
             </ul>

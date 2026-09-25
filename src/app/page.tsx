@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { SEED_PREDEFINED_PRODUCTS, SEED_PORTFOLIO_PIECES } from '@/data/seed-data';
 import { formatPaiseToInr } from '@/lib/utils';
+import { ADMIN_CONFIG } from '@/lib/config';
 
 export default function HomePage() {
   return (
@@ -273,14 +274,12 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  <a
-                    href="https://wa.me/919876543210"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href={`/products/${product.slug}`}
                     className="tap-target px-4 text-xs font-semibold uppercase tracking-wider text-parchment-100 bg-bronze-900 hover:bg-bronze-800 rounded-full transition-colors flex items-center gap-1.5 shadow-sm"
                   >
-                    <span>Order via WhatsApp</span>
-                  </a>
+                    <span>View Details</span>
+                  </Link>
                 </div>
               </div>
             </article>
@@ -341,7 +340,7 @@ export default function HomePage() {
 
                   <div className="pt-4 border-t border-bronze-800">
                     <a
-                      href={`https://wa.me/919876543210?text=Inquiring%20about%20commissioning%20${encodeURIComponent(piece.name)}`}
+                      href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}?text=Inquiring%20about%20commissioning%20${encodeURIComponent(piece.name)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="tap-target w-full text-xs font-semibold uppercase tracking-wider text-bronze-950 bg-gold-500 hover:bg-gold-400 rounded-full transition-colors flex items-center justify-center gap-2"
@@ -365,7 +364,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <a
-                href="https://wa.me/919876543210?text=Namaskaram%2C%20I%20would%20like%20to%20discuss%20a%20temple%20bronze%20commission"
+                href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}?text=Namaskaram%2C%20I%20would%20like%20to%20discuss%20a%20temple%20bronze%20commission`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="tap-target px-8 text-xs font-semibold uppercase tracking-wider text-bronze-950 bg-gold-400 hover:bg-gold-300 rounded-full transition-colors flex items-center gap-2 shadow-lg"
@@ -375,11 +374,11 @@ export default function HomePage() {
               </a>
 
               <a
-                href="tel:+919876543210"
+                href={`tel:${ADMIN_CONFIG.phone}`}
                 className="tap-target px-8 text-xs font-semibold uppercase tracking-wider text-parchment-100 bg-bronze-800 hover:bg-bronze-700 border border-bronze-700 rounded-full transition-colors flex items-center gap-2"
               >
                 <Phone className="w-4 h-4 text-gold-400" />
-                <span>Call +91 98765 43210</span>
+                <span>Call {ADMIN_CONFIG.phone}</span>
               </a>
             </div>
           </div>

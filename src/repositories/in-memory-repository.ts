@@ -19,6 +19,10 @@ export class InMemoryStoreRepository implements StoreRepository {
   private commissionInquiries = new Map<string, CommissionInquiry>();
   private customers = new Map<string, Customer>();
 
+  private clone<T>(val: T): T {
+    return JSON.parse(JSON.stringify(val));
+  }
+
   constructor(seed = true) {
     if (seed) {
       this.resetToSeed();
@@ -194,9 +198,7 @@ export class InMemoryStoreRepository implements StoreRepository {
       portfolioPieces: await this.listPortfolioPieces(),
       orders: await this.listAllOrders(),
       commissionInquiries: await this.listCommissionInquiries(),
-      customers: Array.from(this.customers.values()).map((c) =>
-        JSON.parse(JSON.stringify(c))
-      ),
+      customers: Array.from(this.customers.values()).map((c) => this.clone(c)),
     };
   }
 
@@ -208,19 +210,19 @@ export class InMemoryStoreRepository implements StoreRepository {
     this.customers.clear();
 
     for (const p of snapshot.products) {
-      this.products.set(p.id, JSON.parse(JSON.stringify(p)));
+      this.products.set(p.id, this.clone(p));
     }
     for (const piece of snapshot.portfolioPieces) {
-      this.portfolioPieces.set(piece.id, JSON.parse(JSON.stringify(piece)));
+      this.portfolioPieces.set(piece.id, this.clone(piece));
     }
     for (const o of snapshot.orders) {
-      this.orders.set(o.id, JSON.parse(JSON.stringify(o)));
+      this.orders.set(o.id, this.clone(o));
     }
     for (const c of snapshot.commissionInquiries) {
-      this.commissionInquiries.set(c.id, JSON.parse(JSON.stringify(c)));
+      this.commissionInquiries.set(c.id, this.clone(c));
     }
-    for (const u of snapshot.customers) {
-      this.customers.set(u.id, JSON.parse(JSON.stringify(u)));
+    for (const customer of snapshot.customers) {
+      this.customers.set(customer.id, this.clone(customer));
     }
   }
 }

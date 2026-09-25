@@ -8,8 +8,8 @@ set -euo pipefail
 PORT="${1:-3000}"
 TASK="${2:-all}"
 BASE_URL="http://localhost:${PORT}"
-mkdir -p ".scratch/screenshots/${TASK}"
-OUT_DIR="$(cd ".scratch/screenshots/${TASK}" && pwd)"
+OUT_DIR="${PWD}/.scratch/screenshots/${TASK}"
+mkdir -p "${OUT_DIR}"
 
 capture() {
   local route="$1"

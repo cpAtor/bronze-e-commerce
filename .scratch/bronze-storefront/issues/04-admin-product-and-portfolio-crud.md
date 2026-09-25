@@ -4,16 +4,16 @@
 
 **Blocked by:** 01: Interfaces, schema, Heritage shell & deploy to Vercel
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
 
-- [ ] `AdminService` CRUD methods for `PredefinedProduct` and `PortfolioPiece` implemented and tested against `StoreRepository`
-- [ ] Responsive `/admin` dashboard layout with mobile-first navigation bar and touch-friendly tabs
-- [ ] Predefined Products management view (`/admin/products`): responsive card/table list showing thumbnail, name, price, stock, and quick edit/delete actions
-- [ ] Product creation and edit forms with mobile-friendly form controls (number inputs, textarea, image URL lists)
-- [ ] Portfolio Pieces management view (`/admin/portfolio`): responsive list with preview image, category, and edit/delete actions
-- [ ] Portfolio creation and edit forms with structured fields for casting technique, dimensions, and finish options
-- [ ] Deletion confirmation modals with safe touch targets to prevent accidental taps on mobile
-- [ ] Storefront verification: creating/editing a product or portfolio piece updates `/shop` and `/custom-work` immediately
-- [ ] Structured JSON logging emitted for all product and portfolio mutations
-- [ ] Mobile usability verified on small screen viewports (375px/390px) and desktop
-- [ ] Unit tests for all Admin CRUD operations passing
+- [x] `AdminService` CRUD methods for `PredefinedProduct` and `PortfolioPiece` implemented and tested against `StoreRepository`
+- [x] Responsive `/admin` dashboard layout with mobile-first navigation bar and touch-friendly tabs
+- [x] Predefined Products management view (`/admin/products`): responsive card/table list showing thumbnail, name, price, stock, and quick edit/delete actions
+- [x] Product creation and edit forms with mobile-friendly form controls (number inputs, textarea, image URL lists)
+- [x] Portfolio Pieces management view (`/admin/portfolio`): responsive list with preview image, category, and edit/delete actions
+- [x] Portfolio creation and edit forms with structured fields for casting technique, dimensions, and finish options
+- [x] Deletion confirmation modals with safe touch targets to prevent accidental taps on mobile
+- [x] Storefront verification: creating/editing a product or portfolio piece updates `/shop` and `/custom-work` immediately
+- [x] Structured JSON logging emitted for all product and portfolio mutations
+- [x] Mobile usability verified on small screen viewports (375px/390px) and desktop
+- [x] Unit tests for all Admin CRUD operations passing

@@ -4,15 +4,15 @@
 
 **Blocked by:** 01: Interfaces, schema, Heritage shell & deploy to Vercel
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
 
-- [ ] `CatalogService.browsePortfolio()` and `.getPortfolioPiece(slug)` implemented and tested against `StoreRepository`
-- [ ] Responsive `/custom-work` portfolio gallery page with Heritage styling (adaptive 1-column mobile, 2-3 column desktop grid)
-- [ ] Portfolio Piece detail page (`/custom-work/[slug]`) with high-resolution imagery, craft notes, casting specs, and mobile-friendly CTA
-- [ ] Touch-friendly Commission Inquiry form (`/custom-work/inquire`) capturing phone number for callback, dimensions, deity iconography, finish, and optional portfolio reference
-- [ ] Form validation and error states designed for small mobile keyboards and touch interaction
-- [ ] `CatalogService.submitCommissionInquiry()` generating `COM-XXXX` reference code
-- [ ] Inquiry confirmation view showing `COM-XXXX` and instant 1-click pre-filled WhatsApp, Email, and Phone contact links
-- [ ] Structured JSON logging emitted on `commission.submitted`
-- [ ] Verified responsive layout and touch targets (>= 44px) across mobile viewports (375px/390px) and desktop
-- [ ] Service-level unit tests for portfolio browsing and commission inquiry creation passing
+- [x] `CatalogService.browsePortfolio()` and `.getPortfolioPiece(slug)` implemented and tested against `StoreRepository`
+- [x] Responsive `/custom-work` portfolio gallery page with Heritage styling (adaptive 1-column mobile, 2-3 column desktop grid)
+- [x] Portfolio Piece detail page (`/custom-work/[slug]`) with high-resolution imagery, craft notes, casting specs, and mobile-friendly CTA
+- [x] Touch-friendly Commission Inquiry form (`/custom-work/inquire`) capturing phone number for callback, dimensions, deity iconography, finish, and optional portfolio reference
+- [x] Form validation and error states designed for small mobile keyboards and touch interaction
+- [x] `CatalogService.submitCommissionInquiry()` generating `COM-XXXX` reference code
+- [x] Inquiry confirmation view showing `COM-XXXX` and instant 1-click pre-filled WhatsApp, Email, and Phone contact links
+- [x] Structured JSON logging emitted on `commission.submitted`
+- [x] Verified responsive layout and touch targets (>= 44px) across mobile viewports (375px/390px) and desktop
+- [x] Service-level unit tests for portfolio browsing and commission inquiry creation passing

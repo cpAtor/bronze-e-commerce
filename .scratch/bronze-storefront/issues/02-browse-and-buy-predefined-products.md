@@ -4,17 +4,17 @@
 
 **Blocked by:** 01: Interfaces, schema, Heritage shell & deploy to Vercel
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
 
-- [ ] `CatalogService.browseProducts()` and `.getProduct(slug)` implemented and tested against `StoreRepository`
-- [ ] Responsive `/shop` catalog page with Heritage typography, editorial layout, and responsive mobile grid (1-2 columns on mobile, 3-4 columns on desktop)
-- [ ] Product detail page (`/shop/[slug]`) with responsive image presentation, alloy specs, dimensions, care instructions, and touch-friendly controls
-- [ ] Mobile-optimized sticky "Add to Cart" action bar on small screens to prevent unnecessary scrolling
-- [ ] Responsive cart drawer / modal supporting item increment, decrement, removal, subtotal, and shipping fee logic (free >= ₹2,500, flat ₹150)
-- [ ] Mobile-first checkout form capturing shipping address, recipient name, email, and optional phone number
-- [ ] `CatalogService.placeOrder()` generating `ORD-XXXX` with initial status `Ordered`
-- [ ] Order confirmation view with order summary, order code, and 1-click pre-filled WhatsApp, Email, and Phone links
-- [ ] Customer order status view (`/orders/[code]`) showing `Ordered` status and courier placeholder
-- [ ] Structured JSON logging emitted on `order.created`
-- [ ] Verified responsive usability and tap target sizes (>= 44px) on mobile viewports (375px/390px) and desktop
-- [ ] Service-level unit tests for product browsing, cart calculation, and order creation passing
+- [x] `CatalogService.browseProducts()` and `.getProduct(slug)` implemented and tested against `StoreRepository`
+- [x] Responsive `/shop` catalog page with Heritage typography, editorial layout, and responsive mobile grid (1-2 columns on mobile, 3-4 columns on desktop)
+- [x] Product detail page (`/shop/[slug]`) with responsive image presentation, alloy specs, dimensions, care instructions, and touch-friendly controls
+- [x] Mobile-optimized sticky "Add to Cart" action bar on small screens to prevent unnecessary scrolling
+- [x] Responsive cart drawer / modal supporting item increment, decrement, removal, subtotal, and shipping fee logic (free >= ₹2,500, flat ₹150)
+- [x] Mobile-first checkout form capturing shipping address, recipient name, email, and optional phone number
+- [x] `CatalogService.placeOrder()` generating `ORD-XXXX` with initial status `Ordered`
+- [x] Order confirmation view with order summary, order code, and 1-click pre-filled WhatsApp, Email, and Phone links
+- [x] Customer order status view (`/orders/[code]`) showing `Ordered` status and courier placeholder
+- [x] Structured JSON logging emitted on `order.created`
+- [x] Verified responsive usability and tap target sizes (>= 44px) on mobile viewports (375px/390px) and desktop
+- [x] Service-level unit tests for product browsing, cart calculation, and order creation passing

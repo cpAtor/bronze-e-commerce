@@ -3,6 +3,7 @@
  * Aligns with CONTEXT.md and spec.md entities.
  */
 
+import { relations } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
 export const predefinedProducts = sqliteTable('predefined_products', {
@@ -78,3 +79,34 @@ export const commissionInquiries = sqliteTable('commission_inquiries', {
   ),
   createdAt: integer('created_at').notNull(),
 });
+
+// Drizzle Relational Query API definitions
+export const customersRelations = relations(customers, ({ many }) => ({
+  orders: many(orders),
+  commissionInquiries: many(commissionInquiries),
+}));
+
+export const ordersRelations = relations(orders, ({ one }) => ({
+  customer: one(customers, {
+    fields: [orders.customerId],
+    references: [customers.id],
+  }),
+}));
+
+export const portfolioPiecesRelations = relations(portfolioPieces, ({ many }) => ({
+  commissionInquiries: many(commissionInquiries),
+}));
+
+export const commissionInquiriesRelations = relations(
+  commissionInquiries,
+  ({ one }) => ({
+    customer: one(customers, {
+      fields: [commissionInquiries.customerId],
+      references: [customers.id],
+    }),
+    inspiredByPortfolioPiece: one(portfolioPieces, {
+      fields: [commissionInquiries.inspiredByPortfolioId],
+      references: [portfolioPieces.id],
+    }),
+  })
+);

@@ -6,19 +6,19 @@
 
 **Status:** ready-for-agent
 
-- [ ] Next.js App Router project with TypeScript bootstrapped and running locally
-- [ ] Tailwind CSS configured with Heritage theme extension (palette, serif/sans fonts, responsive fluid typography, mobile-first spacing)
-- [ ] Heritage-themed landing page with craft storytelling, responsive hero, and mobile-first layout (smooth scrolling, touch-friendly tap targets >= 44px)
-- [ ] Responsive navigation shell: mobile drawer/slide-out menu for small screens and editorial header for desktop
-- [ ] Drizzle ORM schemas defined for all 5 entities with `OrderStatus` enum
-- [ ] TypeScript interfaces defined for `CatalogService`, `AdminService`, and `StoreRepository`
-- [ ] Full in-memory `StoreRepository` implementation (all methods work, returns seed data)
-- [ ] `logDomainEvent(event, payload, correlationId)` utility emitting structured JSON to stdout
-- [ ] Seed data constants for 6 Predefined Products and 5 Portfolio Pieces with AI-generated images, descriptions, and pricing (₹800–₹4,500)
-- [ ] `/api/health` endpoint returning `{ "status": "ok" }`
-- [ ] Vercel project connected with auto-deploy on push to `main`
-- [ ] Turso database provisioned, `DATABASE_URL` configured in Vercel env vars
-- [ ] `ADMIN_EMAILS`, `ADMIN_PHONE`, `ADMIN_EMAIL` env vars configured
-- [ ] In-memory repository smoke tests passing
-- [ ] Verified responsive layout across mobile viewport (375px/390px) and desktop (1280px+)
+- [x] Next.js App Router project with TypeScript bootstrapped and running locally
+- [x] Tailwind CSS configured with Heritage theme extension (palette, serif/sans fonts, responsive fluid typography, mobile-first spacing)
+- [x] Heritage-themed landing page with craft storytelling, responsive hero, and mobile-first layout (smooth scrolling, touch-friendly tap targets >= 44px)
+- [x] Responsive navigation shell: mobile drawer/slide-out menu for small screens and editorial header for desktop
+- [x] Drizzle ORM schemas defined for all 5 entities with `OrderStatus` enum
+- [x] TypeScript interfaces defined for `CatalogService`, `AdminService`, and `StoreRepository`
+- [x] Full in-memory `StoreRepository` implementation (all methods work, returns seed data)
+- [x] `logDomainEvent(event, payload, correlationId)` utility emitting structured JSON to stdout
+- [x] Seed data constants for 6 Predefined Products and 5 Portfolio Pieces with AI-generated images, descriptions, and pricing (₹800–₹4,500)
+- [x] `/api/health` endpoint returning `{ "status": "ok" }`
+- [ ] Vercel project connected with auto-deploy on push to `main` (interactive setup wizard provided via `scripts/setup-deployment.sh`)
+- [ ] Turso database provisioned, `DATABASE_URL` configured in Vercel env vars (guided by `scripts/setup-deployment.sh`)
+- [x] `ADMIN_EMAILS`, `ADMIN_PHONE`, `ADMIN_EMAIL` env vars configured in `.env.example`
+- [x] In-memory repository smoke tests passing
+- [x] Verified responsive layout across mobile viewport (375px/390px) and desktop (1280px+)
 - [ ] Live `*.vercel.app` URL accessible with Heritage landing page

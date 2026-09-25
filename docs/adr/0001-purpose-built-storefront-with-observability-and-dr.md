@@ -1,0 +1,3 @@
+# Purpose-Built Storefront Over Hosted Shopify With Built-In Observability and Disaster Recovery
+
+We chose to build a self-hosted, lightweight full-stack web application inspired by the Shopify Heritage aesthetic (Path A1) rather than purchasing a Shopify subscription and the \$350 Heritage theme, while embedding structured telemetry, health/metrics observability, stateless horizontal scalability, and automated JSON/SQLite state snapshot export/restore for disaster recovery. This avoids recurring monthly platform fees and custom-commission form limitations while keeping operational maintenance low through built-in Admin observability and one-click/scheduled backup and restore primitives.

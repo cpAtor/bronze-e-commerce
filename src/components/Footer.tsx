@@ -1,122 +1,117 @@
 import Link from 'next/link';
-import { Mail, Phone, MessageSquare, ShieldCheck, Hammer, Flame } from 'lucide-react';
+import { Mail, Phone, MessageSquare, ArrowUpRight } from 'lucide-react';
 import { ADMIN_CONFIG } from '@/lib/config';
 
 export function Footer() {
   const cleanPhone = ADMIN_CONFIG.phone.replace(/[^0-9]/g, '');
 
   return (
-    <footer className="bg-bronze-950 text-parchment-200 border-t border-bronze-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          {/* Brand Info */}
-          <div className="md:col-span-2 space-y-4">
+    <footer className="bg-heritage-darker text-heritage-cream border-t border-heritage-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-heritage-border">
+          {/* Brand Manifesto */}
+          <div className="md:col-span-5 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-bronze-900 border border-gold-500 flex items-center justify-center text-gold-400 font-serif font-bold text-lg">
+              <div className="w-9 h-9 rounded-full border border-heritage-border flex items-center justify-center font-heading text-xs text-heritage-cream bg-heritage-surface">
                 HB
               </div>
-              <span className="font-serif tracking-widest text-xl font-bold uppercase text-parchment-100">
-                Heritage Bronze
+              <span className="font-heading tracking-[0.2em] text-lg font-semibold uppercase text-heritage-cream">
+                Heritage
               </span>
             </div>
-            <p className="text-sm text-parchment-300/80 max-w-md leading-relaxed font-sans">
-              Sacred Panchaloha casting and artisanal bronze lifestyle wares hand-forged in the ancient lineage of Swamimalai. Every murti and lifestyle vessel honors the Agamic Shilpa Shastras and centuries of lost-wax casting traditions.
+            <p className="text-sm text-heritage-muted leading-relaxed font-sans max-w-sm">
+              Heirloom bronze wares and bespoke temple sanctum vigrahas cast in the sacred metallurgical lineage of Swamimalai, Tamil Nadu. Every piece is hand-sculpted in lost-wax and alloyed with authentic five-metal Panchaloha.
             </p>
-            <div className="flex items-center gap-6 pt-2 text-xs text-gold-400/90">
-              <span className="flex items-center gap-1.5">
-                <Flame className="w-4 h-4 text-gold-500" />
-                Madhuchishtavidhana
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Hammer className="w-4 h-4 text-gold-500" />
-                Hand-Forged Bronze
-              </span>
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-gold-500" />
-                Authentic Panchaloha
-              </span>
+            <div className="pt-2 text-xs text-heritage-subtle tracking-[0.1em] uppercase">
+              Madhuchishtavidhana &bull; Shilpa Shastra Canonical Proportions
             </div>
           </div>
 
+          {/* Quick Links */}
+          <div className="md:col-span-3 space-y-4">
+            <h4 className="text-xs font-medium tracking-[0.18em] uppercase text-heritage-cream/60">
+              Collections
+            </h4>
+            <ul className="space-y-3 text-sm text-heritage-muted">
+              <li>
+                <a href="#shop" className="hover:text-heritage-cream transition-colors">
+                  Artisanal Wares
+                </a>
+              </li>
+              <li>
+                <a href="#custom" className="hover:text-heritage-cream transition-colors">
+                  Temple Commissions
+                </a>
+              </li>
+              <li>
+                <a href="#craft" className="hover:text-heritage-cream transition-colors">
+                  Panchaloha Metallurgy
+                </a>
+              </li>
+              <li>
+                <Link href="/orders" className="hover:text-heritage-cream transition-colors">
+                  My Orders & Tracking
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin" className="hover:text-heritage-cream transition-colors text-xs text-heritage-subtle">
+                  Admin Portal
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Direct Communication Seam */}
-          <div className="space-y-4">
-            <h3 className="font-serif text-gold-400 text-sm tracking-wider uppercase font-semibold">
-              Master Craftsperson Contact
-            </h3>
-            <p className="text-xs text-parchment-300/70">
-              All bespoke commissions and order updates are personally handled off-platform by the master artisan:
+          <div className="md:col-span-4 space-y-4">
+            <h4 className="text-xs font-medium tracking-[0.18em] uppercase text-heritage-cream/60">
+              Atelier Direct Contact
+            </h4>
+            <p className="text-xs text-heritage-muted leading-relaxed">
+              All bespoke commissions and order updates are handled directly by the master sthapati:
             </p>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-3 text-sm">
               <li>
                 <a
                   href={`https://wa.me/${cleanPhone}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="tap-target justify-start gap-2.5 text-parchment-200 hover:text-gold-400 transition-colors"
+                  className="inline-flex items-center gap-2.5 text-heritage-cream hover:underline decoration-heritage-muted underline-offset-4"
                 >
                   <MessageSquare className="w-4 h-4 text-emerald-400" />
                   <span>WhatsApp: {ADMIN_CONFIG.phone}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-heritage-subtle" />
                 </a>
               </li>
               <li>
                 <a
                   href={`tel:${ADMIN_CONFIG.phone}`}
-                  className="tap-target justify-start gap-2.5 text-parchment-200 hover:text-gold-400 transition-colors"
+                  className="inline-flex items-center gap-2.5 text-heritage-cream hover:underline decoration-heritage-muted underline-offset-4"
                 >
-                  <Phone className="w-4 h-4 text-gold-400" />
-                  <span>Phone: {ADMIN_CONFIG.phone}</span>
+                  <Phone className="w-4 h-4" />
+                  <span>Direct: {ADMIN_CONFIG.phone}</span>
                 </a>
               </li>
               <li>
                 <a
                   href={`mailto:${ADMIN_CONFIG.email}`}
-                  className="tap-target justify-start gap-2.5 text-parchment-200 hover:text-gold-400 transition-colors"
+                  className="inline-flex items-center gap-2.5 text-heritage-cream hover:underline decoration-heritage-muted underline-offset-4"
                 >
-                  <Mail className="w-4 h-4 text-gold-400" />
+                  <Mail className="w-4 h-4" />
                   <span>{ADMIN_CONFIG.email}</span>
                 </a>
               </li>
             </ul>
           </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="font-serif text-gold-400 text-sm tracking-wider uppercase font-semibold">
-              Navigation
-            </h3>
-            <ul className="space-y-2 text-sm text-parchment-300">
-              <li>
-                <a href="#shop" className="hover:text-gold-400 transition-colors">
-                  Predefined Products (Wares)
-                </a>
-              </li>
-              <li>
-                <a href="#custom" className="hover:text-gold-400 transition-colors">
-                  Temple Commissions (Portfolio)
-                </a>
-              </li>
-              <li>
-                <a href="#craft" className="hover:text-gold-400 transition-colors">
-                  Lost-Wax Metallurgy & Care
-                </a>
-              </li>
-              <li>
-                <Link href="/orders" className="hover:text-gold-400 transition-colors">
-                  My Orders & Tracking
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="hover:text-gold-400 transition-colors text-xs text-parchment-400">
-                  Admin Dashboard
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-bronze-900 flex flex-col sm:flex-row items-center justify-between text-xs text-parchment-400">
-          <p>© {new Date().getFullYear()} Heritage Bronze Workshop. All sacred works hand-cast with reverence.</p>
-          <p className="mt-2 sm:mt-0">Flat ₹150 shipping across India &bull; Free shipping on orders ₹2,500+</p>
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-heritage-subtle">
+          <p>© {new Date().getFullYear()} Heritage Storefront. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <span>Free insured shipping on ₹2,500+</span>
+            <span>&bull;</span>
+            <span>Swamimalai, South India</span>
+          </div>
         </div>
       </div>
     </footer>

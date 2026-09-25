@@ -1,41 +1,26 @@
 import type { Metadata, Viewport } from 'next';
-import { Cinzel, Inter } from 'next/font/google';
+import { Instrument_Sans } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 
-const cinzel = Cinzel({
+const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
-  variable: '--font-cinzel',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-instrument-sans',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'Heritage Bronze | Artisanal Panchaloha & Sacred Temple Commissions',
+  title: 'Heritage Bronze — Heirloom Artisanal Bronze & Sacred Commissions',
   description:
-    'Handcrafted ritual and lifestyle bronze wares and bespoke temple deity commissions forged using 3,000-year-old lost-wax casting in Swamimalai, Tamil Nadu.',
-  keywords: [
-    'Bronze',
-    'Panchaloha',
-    'Lost-Wax Casting',
-    'Temple Murti',
-    'Nataraja',
-    'Kansa',
-    'Artisanal Bronze',
-    'Swamimalai',
-  ],
+    'Handcrafted ritual and lifestyle bronze wares and bespoke temple deity commissions forged using 3,000-year-old lost-wax casting in Swamimalai.',
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  themeColor: '#202219',
 };
 
 export default function RootLayout({
@@ -44,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${cinzel.variable} ${inter.variable}`}>
-      <body className="min-h-screen flex flex-col bg-parchment-100 text-bronze-950 font-sans selection:bg-gold-500/30 selection:text-bronze-950">
+    <html lang="en" className={`${instrumentSans.variable} font-sans`}>
+      <body className="min-h-screen flex flex-col bg-heritage-dark text-heritage-cream font-sans selection:bg-heritage-cream selection:text-heritage-dark">
         <Navigation />
         <main className="flex-grow">{children}</main>
         <Footer />

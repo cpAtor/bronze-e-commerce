@@ -1,102 +1,101 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  Sparkles,
   ArrowRight,
   ShieldCheck,
   Flame,
-  Clock,
-  Compass,
-  CheckCircle2,
+  Package,
   Phone,
   MessageSquare,
-  Package,
+  Sparkles,
 } from 'lucide-react';
 import { SEED_PREDEFINED_PRODUCTS, SEED_PORTFOLIO_PIECES } from '@/data/seed-data';
 import { formatPaiseToInr } from '@/lib/utils';
 import { ADMIN_CONFIG } from '@/lib/config';
 
 export default function HomePage() {
+  const cleanPhone = ADMIN_CONFIG.phone.replace(/[^0-9]/g, '');
+
   return (
-    <div className="space-y-24 sm:space-y-32 pb-24">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-parchment-200/60 via-parchment-100 to-parchment-100 border-b border-parchment-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 sm:pt-20 sm:pb-28">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            {/* Hero Copy */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-bronze-900/10 border border-gold-500/30 text-bronze-900 text-xs font-semibold tracking-widest uppercase">
-                <Sparkles className="w-3.5 h-3.5 text-gold-600" />
-                <span>Madhuchishtavidhana &bull; Swamimalai Lineage</span>
+    <div className="space-y-24 sm:space-y-32 pb-24 bg-heritage-dark text-heritage-cream">
+      {/* ── SECTION 1: HERO (Shopify Heritage Scheme 1) ────────────────────── */}
+      <section className="relative overflow-hidden pt-8 pb-16 sm:pt-16 sm:pb-24 border-b border-heritage-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Hero Editorial Text */}
+            <div className="lg:col-span-7 space-y-7 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-heritage-border bg-heritage-surface text-heritage-cream text-xs font-medium tracking-[0.14em] uppercase">
+                <Sparkles className="w-3.5 h-3.5 text-heritage-cream" />
+                <span>Swamimalai Lineage &bull; Lost-Wax Casting</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-bronze-950 leading-[1.15]">
-                Living Bronze.
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-medium tracking-tight leading-[1.05] text-heritage-cream">
+                Heirloom Bronze.
                 <br />
-                <span className="text-bronze-700 italic">Sacred Fire.</span>
+                <span className="text-heritage-muted italic font-normal">Hand-Forged</span>
                 <br />
-                Timeless Form.
+                for Eternity.
               </h1>
 
-              <p className="text-base sm:text-lg text-bronze-800/90 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans">
-                Authentic handcrafted Panchaloha lifestyle wares and bespoke temple deity murtis, forged with ancient lost-wax casting methods unchanged since the Chola dynasty.
+              <p className="text-base sm:text-lg text-heritage-muted max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans font-light">
+                Authentic handcrafted Panchaloha lifestyle wares and bespoke temple deity vigrahas, forged with unbroken 3,000-year Chola metallurgical traditions.
               </p>
 
-              {/* Action Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              {/* Heritage Pill Buttons */}
+              <div className="pt-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                 <a
                   href="#shop"
-                  className="tap-target w-full sm:w-auto px-8 py-3.5 text-sm font-semibold tracking-wider uppercase text-parchment-50 bg-bronze-900 hover:bg-bronze-800 rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
+                  className="button-primary w-full sm:w-auto"
                 >
-                  <span>Explore Curated Wares</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-gold-400" />
+                  <span>Shop the Collection</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
 
                 <a
                   href="#custom"
-                  className="tap-target w-full sm:w-auto px-8 py-3.5 text-sm font-semibold tracking-wider uppercase text-bronze-900 bg-parchment-50 hover:bg-parchment-200 border-2 border-bronze-700/30 rounded-full transition-all flex items-center justify-center gap-2"
+                  className="button-secondary w-full sm:w-auto"
                 >
                   <span>Temple Commissions</span>
                 </a>
               </div>
 
-              {/* Micro-assurances */}
-              <div className="pt-6 grid grid-cols-3 gap-3 border-t border-parchment-300 max-w-md mx-auto lg:mx-0 text-left">
+              {/* Minimal Trust Metadata */}
+              <div className="pt-8 grid grid-cols-3 gap-6 border-t border-heritage-border/80 max-w-lg mx-auto lg:mx-0 text-left">
                 <div>
-                  <p className="font-serif font-bold text-bronze-950 text-base sm:text-lg">5-Metal</p>
-                  <p className="text-xs text-bronze-600">Panchaloha Alloy</p>
+                  <p className="font-heading font-semibold text-heritage-cream text-lg">5-Metal</p>
+                  <p className="text-xs text-heritage-muted tracking-wider uppercase mt-0.5">Panchaloha</p>
                 </div>
                 <div>
-                  <p className="font-serif font-bold text-bronze-950 text-base sm:text-lg">₹2,500+</p>
-                  <p className="text-xs text-bronze-600">Free India Shipping</p>
+                  <p className="font-heading font-semibold text-heritage-cream text-lg">₹2,500+</p>
+                  <p className="text-xs text-heritage-muted tracking-wider uppercase mt-0.5">Free Shipping</p>
                 </div>
                 <div>
-                  <p className="font-serif font-bold text-bronze-950 text-base sm:text-lg">100%</p>
-                  <p className="text-xs text-bronze-600">Hand-Cast Bronze</p>
+                  <p className="font-heading font-semibold text-heritage-cream text-lg">100%</p>
+                  <p className="text-xs text-heritage-muted tracking-wider uppercase mt-0.5">Hand-Cast</p>
                 </div>
               </div>
             </div>
 
-            {/* Hero Image Showcase */}
+            {/* Hero Featured Visual */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden shadow-2xl border-4 border-bronze-900/10 group">
+              <div className="relative w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden border border-heritage-border shadow-2xl group">
                 <Image
                   src="/images/portfolio/nataraja.jpg"
-                  alt="Masterwork Nataraja Murti in lost-wax Panchaloha bronze"
+                  alt="Nataraja Ananda Tandava Murti in authentic lost-wax Panchaloha bronze"
                   fill
                   priority
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 450px"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-bronze-950/80 via-transparent to-transparent flex flex-col justify-end p-6">
-                  <span className="text-gold-400 text-xs tracking-widest uppercase font-semibold">
-                    Masterpiece Showcase
+                <div className="absolute inset-0 bg-gradient-to-t from-heritage-darker/90 via-transparent to-transparent flex flex-col justify-end p-7">
+                  <span className="text-[11px] tracking-[0.16em] uppercase text-heritage-muted font-medium">
+                    Sanctum Masterpiece
                   </span>
-                  <h3 className="text-parchment-100 font-serif text-lg font-bold">
-                    Nataraja Ananda Tandava Murti
+                  <h3 className="font-heading text-xl font-medium text-heritage-cream mt-1">
+                    Nataraja Ananda Tandava
                   </h3>
-                  <p className="text-parchment-300 text-xs">
-                    Madhuchishtavidhana Lost-Wax Casting &bull; Swamimalai
+                  <p className="text-xs text-heritage-muted font-light mt-0.5">
+                    Madhuchishtavidhana Lost-Wax Casting
                   </p>
                 </div>
               </div>
@@ -105,178 +104,232 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Craft & Metallurgy Storytelling */}
-      <section id="craft" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <span className="text-xs font-semibold tracking-widest uppercase text-gold-600">
-            Heritage & Metallurgical Canon
+      {/* ── SECTION 2: CURATED COLLECTIONS ROW ────────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 pb-4 border-b border-heritage-border gap-4">
+          <div>
+            <span className="text-xs font-medium tracking-[0.18em] uppercase text-heritage-muted block">
+              Curated Offerings
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-heading font-medium text-heritage-cream mt-1">
+              Browse by Category
+            </h2>
+          </div>
+          <span className="text-xs text-heritage-muted font-light">
+            3 Core Atelier Disciplines
           </span>
-          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-bronze-950">
-            The Alchemy of Panchaloha & Lost-Wax Casting
-          </h2>
-          <p className="text-base text-bronze-700 font-sans leading-relaxed">
-            In our Swamimalai atelier, bronze is not simply cast—it is awakened according to the sacred Shilpa Shastras, balancing five sacred metals with elemental fire.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Card 1: Panchaloha */}
-          <div className="bg-parchment-50 border border-parchment-300 rounded-2xl p-8 shadow-sm space-y-6 flex flex-col justify-between">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-bronze-900/10 flex items-center justify-center text-bronze-800">
-                <ShieldCheck className="w-6 h-6 text-gold-600" />
-              </div>
-              <h3 className="text-2xl font-serif font-bold text-bronze-950">
-                The Five Sacred Metals (Panchaloha)
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Category 1 */}
+          <a
+            href="#custom"
+            className="group relative aspect-[4/5] rounded-2xl overflow-hidden border border-heritage-border bg-heritage-surface flex flex-col justify-end p-6"
+          >
+            <Image
+              src="/images/portfolio/prabhavali.jpg"
+              alt="Temple Vigrahas & Accessories"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-90"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-heritage-darker/90 via-heritage-darker/30 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-heritage-muted">
+                Bespoke Sanctum
+              </span>
+              <h3 className="font-heading text-xl font-medium text-heritage-cream">
+                Temple Vigrahas & Arch
               </h3>
-              <p className="text-sm text-bronze-800 leading-relaxed font-sans">
-                Mentioned in ancient Agamas, Panchaloha is an alloy revered for its spiritual conductivity and therapeutic Ayurvedic properties:
-              </p>
-              <ul className="space-y-3 text-sm text-bronze-800">
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-gold-600 mt-1 flex-shrink-0" />
-                  <span><strong>Copper (Tamra):</strong> Forms the sacred structural core, providing strength, thermal conductivity, and longevity.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-gold-600 mt-1 flex-shrink-0" />
-                  <span><strong>Zinc (Jada):</strong> Enhances fluidity during molten pour and imparts an enduring warm golden luster.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-gold-600 mt-1 flex-shrink-0" />
-                  <span><strong>Tin (Vanga):</strong> Grants pure acoustic resonance for sacred bells (*Ghantas*) and corrosion resistance.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-gold-600 mt-1 flex-shrink-0" />
-                  <span><strong>Lead (Sisa) & Silver/Gold:</strong> Trace sacramental elements ensuring smooth mold penetration and sanctum purity.</span>
-                </li>
-              </ul>
-            </div>
-            <div className="pt-4 border-t border-parchment-200">
-              <p className="text-xs text-bronze-600 italic">
-                All daily drinkware and cooking vessels are forged strictly in food-safe lead-free Kansa (78% copper, 22% tin).
+              <p className="text-xs text-heritage-muted font-light pt-1 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                <span>View Portfolio</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </p>
             </div>
-          </div>
+          </a>
 
-          {/* Card 2: Lost-Wax Process */}
-          <div className="bg-parchment-50 border border-parchment-300 rounded-2xl p-8 shadow-sm space-y-6 flex flex-col justify-between">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-bronze-900/10 flex items-center justify-center text-bronze-800">
-                <Flame className="w-6 h-6 text-gold-600" />
-              </div>
-              <h3 className="text-2xl font-serif font-bold text-bronze-950">
-                Madhuchishtavidhana (Cire Perdue)
+          {/* Category 2 */}
+          <a
+            href="#shop"
+            className="group relative aspect-[4/5] rounded-2xl overflow-hidden border border-heritage-border bg-heritage-surface flex flex-col justify-end p-6"
+          >
+            <Image
+              src="/images/products/bronze-bottle.jpg"
+              alt="Ayurvedic Kansa Drinkware"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-90"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-heritage-darker/90 via-heritage-darker/30 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-heritage-muted">
+                Daily Living
+              </span>
+              <h3 className="font-heading text-xl font-medium text-heritage-cream">
+                Ayurvedic Kansa Ware
               </h3>
-              <p className="text-sm text-bronze-800 leading-relaxed font-sans">
-                Each custom idol is completely singular because the original wax model is sacrificed in fire during casting:
+              <p className="text-xs text-heritage-muted font-light pt-1 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                <span>Shop Wares</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </p>
-              <div className="space-y-4 text-sm text-bronze-800">
-                <div className="flex gap-3">
-                  <span className="w-6 h-6 rounded-full bg-bronze-200 text-bronze-900 font-serif font-bold text-xs flex items-center justify-center flex-shrink-0">1</span>
-                  <div>
-                    <h4 className="font-semibold text-bronze-900">Beeswax Sculpting</h4>
-                    <p className="text-xs text-bronze-700">The artisan carves pure beeswax and resin to define every divine gesture (*Mudra*) and ornament.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <span className="w-6 h-6 rounded-full bg-bronze-200 text-bronze-900 font-serif font-bold text-xs flex items-center justify-center flex-shrink-0">2</span>
-                  <div>
-                    <h4 className="font-semibold text-bronze-900">Alluvial Clay Encasement</h4>
-                    <p className="text-xs text-bronze-700">Multiple fine coatings of Cauvery river silt clay are layered around the wax to capture micro-details.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <span className="w-6 h-6 rounded-full bg-bronze-200 text-bronze-900 font-serif font-bold text-xs flex items-center justify-center flex-shrink-0">3</span>
-                  <div>
-                    <h4 className="font-semibold text-bronze-900">The Molten Pour</h4>
-                    <p className="text-xs text-bronze-700">Red-hot molten alloy is poured in; the wax drains away, replacing wax with solid eternal bronze.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <span className="w-6 h-6 rounded-full bg-bronze-200 text-bronze-900 font-serif font-bold text-xs flex items-center justify-center flex-shrink-0">4</span>
-                  <div>
-                    <h4 className="font-semibold text-bronze-900">Chiseling & Eye-Opening</h4>
-                    <p className="text-xs text-bronze-700">Days of hand chiseling, diamond paste buffing, and the sacred ritual opening of the eyes (*Netronmeelana*).</p>
-                  </div>
-                </div>
+            </div>
+          </a>
+
+          {/* Category 3 */}
+          <a
+            href="#shop"
+            className="group relative aspect-[4/5] rounded-2xl overflow-hidden border border-heritage-border bg-heritage-surface flex flex-col justify-end p-6"
+          >
+            <Image
+              src="/images/products/bronze-urli.jpg"
+              alt="Ritual Devotion & Urli"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-90"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-heritage-darker/90 via-heritage-darker/30 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-heritage-muted">
+                Sacred Living
+              </span>
+              <h3 className="font-heading text-xl font-medium text-heritage-cream">
+                Ritual Ensembles & Urli
+              </h3>
+              <p className="text-xs text-heritage-muted font-light pt-1 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                <span>Shop Wares</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      {/* ── SECTION 3: MEDIA WITH CONTENT (Shopify Heritage Scheme 3 Moss) ── */}
+      <section id="craft" className="bg-heritage-moss text-heritage-cream py-20 border-y border-heritage-border scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Large Editorial Portrait */}
+            <div className="lg:col-span-6">
+              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-heritage-border shadow-2xl">
+                <Image
+                  src="/images/products/bronze-pooja-set.jpg"
+                  alt="Panchaloha Sacred Pooja Set"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
               </div>
             </div>
-            <div className="pt-4 border-t border-parchment-200">
-              <p className="text-xs text-bronze-600 italic">
-                No industrial stamping or modern plastic molds—every curve carries human intention.
+
+            {/* Editorial Story Text */}
+            <div className="lg:col-span-6 space-y-6">
+              <span className="text-xs font-medium tracking-[0.18em] uppercase text-heritage-muted block">
+                Heritage &bull; Metallurgical Canon
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-heading font-medium tracking-tight text-heritage-cream">
+                The Sacred Five Metals (Panchaloha)
+              </h2>
+              <p className="text-sm sm:text-base text-heritage-muted leading-relaxed font-light">
+                In our Swamimalai atelier, bronze is alloyed according to the ancient Shilpa Shastras. Five sacred metals are combined in harmonic equilibrium:
               </p>
+
+              <div className="space-y-4 pt-2 text-sm text-heritage-cream/90">
+                <div className="pb-3 border-b border-heritage-border/50">
+                  <strong className="font-medium text-heritage-cream">Copper (Tamra) &bull; Structural Heart</strong>
+                  <p className="text-xs text-heritage-muted mt-0.5 font-light">Provides structural core strength, longevity, and thermal conductivity.</p>
+                </div>
+                <div className="pb-3 border-b border-heritage-border/50">
+                  <strong className="font-medium text-heritage-cream">Zinc (Jada) &bull; Radiance</strong>
+                  <p className="text-xs text-heritage-muted mt-0.5 font-light">Imparts smooth molten flow and an enduring warm golden gleam.</p>
+                </div>
+                <div className="pb-3 border-b border-heritage-border/50">
+                  <strong className="font-medium text-heritage-cream">Tin (Vanga) &bull; Acoustic Resonance</strong>
+                  <p className="text-xs text-heritage-muted mt-0.5 font-light">Grants bell-metal acoustics (*Kansya*) and anti-corrosive permanence.</p>
+                </div>
+                <div>
+                  <strong className="font-medium text-heritage-cream">Sacramental Elements &bull; Silver & Gold</strong>
+                  <p className="text-xs text-heritage-muted mt-0.5 font-light">Ensures spiritual conductivity and sanctum ritual purity.</p>
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <a
+                  href="#shop"
+                  className="button-primary"
+                >
+                  <span>Explore Finished Wares</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Predefined Products Catalog */}
+      {/* ── SECTION 4: PRODUCT LIST GRID (The 6 Predefined Products) ────── */}
       <section id="shop" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 pb-4 border-b border-heritage-border gap-4">
           <div>
-            <span className="text-xs font-semibold tracking-widest uppercase text-gold-600">
-              Ready for Dispatch
+            <span className="text-xs font-medium tracking-[0.18em] uppercase text-heritage-muted block">
+              In Stock & Ready to Ship
             </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-bronze-950 mt-1">
-              Curated Artisanal Bronze Wares
+            <h2 className="text-3xl sm:text-4xl font-heading font-medium text-heritage-cream mt-1">
+              Curated Bronze Wares
             </h2>
-            <p className="text-sm text-bronze-700 mt-2 max-w-xl">
-              Authentic bronze vessels, ritual sets, and jewellery hand-finished in our workshop. Packed in protective wooden crates with insurance.
-            </p>
           </div>
 
-          <div className="bg-parchment-200/80 border border-parchment-300 rounded-xl px-4 py-2.5 text-xs text-bronze-900 flex items-center gap-2 self-start md:self-auto">
-            <Package className="w-4 h-4 text-gold-600 flex-shrink-0" />
-            <span><strong>Flat ₹150 shipping</strong> &bull; <strong>Free</strong> on orders ₹2,500+</span>
+          <div className="flex items-center gap-2 text-xs text-heritage-muted">
+            <Package className="w-4 h-4 text-heritage-cream" />
+            <span>Flat ₹150 delivery &bull; <strong>Free</strong> over ₹2,500</span>
           </div>
         </div>
 
-        {/* Product Cards Grid */}
+        {/* 6 Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {SEED_PREDEFINED_PRODUCTS.map((product) => (
             <article
               key={product.id}
-              className="bg-parchment-50 border border-parchment-300/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group"
+              className="group flex flex-col border border-heritage-border rounded-2xl overflow-hidden bg-heritage-surface hover:border-heritage-cream/40 transition-all duration-300"
             >
-              {/* Product Image */}
-              <div className="relative aspect-square w-full overflow-hidden bg-bronze-950/5">
+              {/* Product Visual */}
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-heritage-darker">
                 <Image
                   src={product.images[0]}
                   alt={product.name}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
-                <div className="absolute top-3 right-3 bg-parchment-50/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-semibold text-bronze-900 border border-parchment-200">
+                <div className="absolute top-3.5 right-3.5 bg-heritage-darker/80 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-medium text-heritage-cream border border-heritage-border">
                   {product.weight}
                 </div>
               </div>
 
-              {/* Product Info */}
+              {/* Product Card Details */}
               <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <p className="text-[11px] uppercase tracking-wider text-bronze-500 font-medium">
+                <div className="space-y-1.5">
+                  <span className="text-[11px] uppercase tracking-[0.14em] text-heritage-muted font-normal block">
                     {product.dimensions}
-                  </p>
-                  <h3 className="font-serif font-bold text-lg text-bronze-950 leading-snug group-hover:text-gold-700 transition-colors">
+                  </span>
+                  <h3 className="font-heading font-medium text-lg text-heritage-cream leading-snug group-hover:text-heritage-cream-hover transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-xs text-bronze-700 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-heritage-muted line-clamp-2 leading-relaxed font-light pt-1">
                     {product.description}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-parchment-200 flex items-center justify-between">
+                <div className="pt-4 border-t border-heritage-border/70 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] uppercase tracking-wider text-bronze-500 block">Price</span>
-                    <span className="text-xl font-serif font-bold text-bronze-950">
+                    <span className="text-[10px] uppercase tracking-wider text-heritage-subtle block">Price</span>
+                    <span className="text-xl font-heading font-medium text-heritage-cream">
                       {formatPaiseToInr(product.pricePaise)}
                     </span>
                   </div>
 
                   <Link
                     href={`/products/${product.slug}`}
-                    className="tap-target px-4 text-xs font-semibold uppercase tracking-wider text-parchment-100 bg-bronze-900 hover:bg-bronze-800 rounded-full transition-colors flex items-center gap-1.5 shadow-sm"
+                    className="button-secondary text-xs px-5 py-2.5"
                   >
                     <span>View Details</span>
                   </Link>
@@ -287,99 +340,176 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Bespoke Temple Commissions Portfolio */}
-      <section id="custom" className="bg-bronze-950 text-parchment-100 py-20 border-y border-bronze-900 scroll-mt-20">
+      {/* ── SECTION 5: MEDIA WITH CONTENT #2 (Bespoke Temple Intake) ───────── */}
+      <section id="custom" className="bg-heritage-darker py-20 border-y border-heritage-border scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-            <span className="text-xs font-semibold tracking-widest uppercase text-gold-400">
-              Sanctum Murti & Temple Accessories
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-parchment-100">
-              Bespoke Custom Works Showcase
-            </h2>
-            <p className="text-sm sm:text-base text-parchment-300 font-sans leading-relaxed">
-              Every deity sculpture is created according to your temple’s sanctum measurements (*Ayadi calculation*) and specific iconography canons.
-            </p>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Story Text */}
+            <div className="lg:col-span-6 space-y-6 order-2 lg:order-1">
+              <span className="text-xs font-medium tracking-[0.18em] uppercase text-heritage-muted block">
+                Bespoke Temple Commissions
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-heading font-medium tracking-tight text-heritage-cream">
+                Madhuchishtavidhana (Lost-Wax Casting)
+              </h2>
+              <p className="text-sm sm:text-base text-heritage-muted leading-relaxed font-light">
+                Each custom temple vigraha is sculpted uniquely in pure beeswax according to the patron’s sanctum measurements (*Ayadi calculations*). The wax model is consumed by fire, creating an irreplaceable, singular work of living bronze.
+              </p>
 
-          {/* Portfolio Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {SEED_PORTFOLIO_PIECES.map((piece) => (
-              <div
-                key={piece.id}
-                className="bg-bronze-900/60 border border-bronze-800 rounded-2xl overflow-hidden flex flex-col group hover:border-gold-500/50 transition-colors"
-              >
-                <div className="relative aspect-square w-full overflow-hidden">
+              <div className="space-y-3 pt-1 text-sm text-heritage-cream/90">
+                <div className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-cream" />
+                  <span>Custom heights from 12 inches to 7 feet</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-cream" />
+                  <span>Finishes: Antique Temple Patina, High Polish, or Verdant Patina</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-cream" />
+                  <span>Consecrated iconography compliant with Agama traditions</span>
+                </div>
+              </div>
+
+              <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
+                <a
+                  href={`https://wa.me/${cleanPhone}?text=Namaskaram%2C%20I%20would%20like%20to%20discuss%20a%20bespoke%20temple%20commission`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button-primary w-full sm:w-auto"
+                >
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  <span>WhatsApp Sthapati</span>
+                </a>
+
+                <a
+                  href={`tel:${ADMIN_CONFIG.phone}`}
+                  className="button-secondary w-full sm:w-auto"
+                >
+                  <Phone className="w-4 h-4 mr-2" />
+                  <span>Call {ADMIN_CONFIG.phone}</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Showcase Visual */}
+            <div className="lg:col-span-6 order-1 lg:order-2">
+              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-heritage-border shadow-2xl">
+                <Image
+                  src="/images/portfolio/deepastambha.jpg"
+                  alt="Deepastambha Ritual Branching Lamp"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 6: BESPOKE PORTFOLIO SHOWCASE ─────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 pb-4 border-b border-heritage-border gap-4">
+          <div>
+            <span className="text-xs font-medium tracking-[0.18em] uppercase text-heritage-muted block">
+              Representative Showcase
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-heading font-medium text-heritage-cream mt-1">
+              Custom Portfolio Pieces
+            </h2>
+          </div>
+          <span className="text-xs text-heritage-muted font-light">
+            Typical Lead Times: 4–12 Weeks
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {SEED_PORTFOLIO_PIECES.map((piece) => (
+            <div
+              key={piece.id}
+              className="group border border-heritage-border rounded-2xl overflow-hidden bg-heritage-surface flex flex-col justify-between hover:border-heritage-cream/40 transition-colors"
+            >
+              <div>
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-heritage-darker">
                   <Image
                     src={piece.images[0]}
                     alt={piece.name}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
-                  <div className="absolute top-3 left-3 bg-bronze-950/80 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-bronze-700">
+                  <div className="absolute top-3.5 left-3.5 bg-heritage-darker/80 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-medium text-heritage-cream border border-heritage-border">
                     Lead: {piece.typicalLeadTime}
                   </div>
                 </div>
 
-                <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="font-serif font-bold text-lg text-parchment-100 group-hover:text-gold-400 transition-colors">
-                      {piece.name}
-                    </h3>
-                    <p className="text-xs text-parchment-300/80 line-clamp-2 leading-relaxed">
-                      {piece.description}
-                    </p>
-
-                    <div className="pt-2 text-xs text-parchment-400 space-y-1">
-                      <p><strong className="text-gold-400/90 font-medium">Ref Dimensions:</strong> {piece.referenceDimensions}</p>
-                      <p><strong className="text-gold-400/90 font-medium">Casting:</strong> {piece.castingTechnique}</p>
-                      <p><strong className="text-gold-400/90 font-medium">Finishes:</strong> {piece.finishOptions.join(', ')}</p>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 border-t border-bronze-800">
-                    <a
-                      href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}?text=Inquiring%20about%20commissioning%20${encodeURIComponent(piece.name)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="tap-target w-full text-xs font-semibold uppercase tracking-wider text-bronze-950 bg-gold-500 hover:bg-gold-400 rounded-full transition-colors flex items-center justify-center gap-2"
-                    >
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      <span>Request Custom Quote</span>
-                    </a>
+                <div className="p-6 space-y-3">
+                  <h3 className="font-heading font-medium text-lg text-heritage-cream leading-snug">
+                    {piece.name}
+                  </h3>
+                  <p className="text-xs text-heritage-muted line-clamp-2 leading-relaxed font-light">
+                    {piece.description}
+                  </p>
+                  <div className="pt-2 text-xs text-heritage-subtle space-y-1 font-light">
+                    <p><strong className="text-heritage-cream/80 font-normal">Ref Dimensions:</strong> {piece.referenceDimensions}</p>
+                    <p><strong className="text-heritage-cream/80 font-normal">Technique:</strong> {piece.castingTechnique}</p>
                   </div>
                 </div>
               </div>
-            ))}
+
+              <div className="p-6 pt-0">
+                <a
+                  href={`https://wa.me/${cleanPhone}?text=Inquiring%20about%20custom%20commission%20for%20${encodeURIComponent(piece.name)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button-secondary w-full text-xs"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 mr-2" />
+                  <span>Request Custom Quote</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SECTION 7: ATELIER STATEMENT / VALUES ─────────────────────────── */}
+      <section id="story" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="border border-heritage-border rounded-3xl p-8 sm:p-14 bg-heritage-surface/60 backdrop-blur-sm text-center space-y-8">
+          <div className="max-w-2xl mx-auto space-y-3">
+            <span className="text-xs font-medium tracking-[0.18em] uppercase text-heritage-muted block">
+              Atelier Commitment
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-heading font-medium text-heritage-cream">
+              Direct from the Swamimalai Hereditary Sthapatis
+            </h2>
+            <p className="text-sm text-heritage-muted leading-relaxed font-light">
+              No retail markups or mass-production factories. Every bronze piece and consecrated deity vigraha is cast, chiseled, and buffed in our master workshop.
+            </p>
           </div>
 
-          {/* Custom Inquiry Callout */}
-          <div className="mt-16 bg-gradient-to-r from-bronze-900 to-bronze-950 border border-gold-500/30 rounded-2xl p-8 sm:p-12 text-center space-y-6">
-            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-parchment-100">
-              Need a Custom Temple Idol or Sanctum Restoration?
-            </h3>
-            <p className="text-sm text-parchment-300 max-w-2xl mx-auto leading-relaxed">
-              We work directly with temple trustees, archakas, and private patrons worldwide to design, cast, and consecrate murtis following Shilpa Shastra proportions.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-              <a
-                href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}?text=Namaskaram%2C%20I%20would%20like%20to%20discuss%20a%20temple%20bronze%20commission`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tap-target px-8 text-xs font-semibold uppercase tracking-wider text-bronze-950 bg-gold-400 hover:bg-gold-300 rounded-full transition-colors flex items-center gap-2 shadow-lg"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>WhatsApp Master Sthapati</span>
-              </a>
-
-              <a
-                href={`tel:${ADMIN_CONFIG.phone}`}
-                className="tap-target px-8 text-xs font-semibold uppercase tracking-wider text-parchment-100 bg-bronze-800 hover:bg-bronze-700 border border-bronze-700 rounded-full transition-colors flex items-center gap-2"
-              >
-                <Phone className="w-4 h-4 text-gold-400" />
-                <span>Call {ADMIN_CONFIG.phone}</span>
-              </a>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left pt-6 border-t border-heritage-border/70 max-w-4xl mx-auto">
+            <div className="space-y-2">
+              <ShieldCheck className="w-5 h-5 text-heritage-cream" />
+              <h4 className="font-heading font-medium text-sm text-heritage-cream">Authentic Five Metals</h4>
+              <p className="text-xs text-heritage-muted font-light leading-relaxed">
+                Certified sacred copper, tin, zinc, and precious alloy proportions according to Agamic tenets.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Flame className="w-5 h-5 text-heritage-cream" />
+              <h4 className="font-heading font-medium text-sm text-heritage-cream">Pure Lost-Wax Sculpting</h4>
+              <p className="text-xs text-heritage-muted font-light leading-relaxed">
+                Every wax mold is sculpted by hand and lost to molten bronze; no two works are identical.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Package className="w-5 h-5 text-heritage-cream" />
+              <h4 className="font-heading font-medium text-sm text-heritage-cream">Insured Wooden Crating</h4>
+              <p className="text-xs text-heritage-muted font-light leading-relaxed">
+                Custom shockproof timber framing ensures safe transit for heavy consecrated idols across India and abroad.
+              </p>
             </div>
           </div>
         </div>

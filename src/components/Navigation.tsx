@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, ShoppingBag, Sparkles, User, Phone } from 'lucide-react';
+import { Menu, X, ShoppingBag, Search, User, Phone, ArrowRight } from 'lucide-react';
 import { ADMIN_CONFIG } from '@/lib/config';
 
 export function Navigation() {
@@ -11,13 +11,12 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile drawer on escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setMobileMenuOpen(false);
@@ -27,168 +26,182 @@ export function Navigation() {
   }, []);
 
   const navLinks = [
-    { href: '#shop', label: 'Shop Collection' },
-    { href: '#custom', label: 'Temple Commissions' },
+    { href: '#shop', label: 'Shop Wares' },
+    { href: '#custom', label: 'Bespoke Commissions' },
     { href: '#craft', label: 'Craft & Metallurgy' },
+    { href: '#story', label: 'Atelier Story' },
     { href: '/orders', label: 'My Orders' },
   ];
 
   return (
     <>
+      {/* Heritage Announcement Bar */}
+      <div className="bg-heritage-darker text-heritage-cream/80 text-[11px] font-medium tracking-[0.15em] uppercase py-2.5 px-4 text-center border-b border-heritage-border-light select-none">
+        Complimentary insured shipping on orders ₹2,500+ &bull; Hand-cast Panchaloha from Swamimalai
+      </div>
+
+      {/* Sticky Header */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-parchment-100/95 backdrop-blur-md shadow-sm border-b border-parchment-300'
-            : 'bg-parchment-100 border-b border-parchment-200'
+            ? 'bg-heritage-dark/95 backdrop-blur-md border-b border-heritage-border shadow-lg shadow-black/20'
+            : 'bg-heritage-dark border-b border-heritage-border/80'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Logo / Monogram */}
+            {/* Logo / Brand Name */}
             <Link
               href="/"
-              className="flex items-center gap-3 text-bronze-950 group"
-              aria-label="Heritage Bronze Home"
+              className="flex items-center gap-3 text-heritage-cream group"
+              aria-label="Heritage Storefront"
             >
-              <div className="w-10 h-10 rounded-full bg-bronze-900 border border-gold-500 flex items-center justify-center text-gold-400 font-serif font-bold text-lg shadow-inner group-hover:scale-105 transition-transform">
+              <div className="w-9 h-9 rounded-full border border-heritage-border flex items-center justify-center font-heading font-medium text-xs tracking-wider text-heritage-cream bg-heritage-surface group-hover:border-heritage-cream transition-colors">
                 HB
               </div>
               <div className="flex flex-col">
-                <span className="font-serif tracking-widest text-lg sm:text-xl font-bold uppercase text-bronze-950">
-                  Heritage Bronze
+                <span className="font-heading tracking-[0.2em] text-base sm:text-lg font-semibold uppercase text-heritage-cream">
+                  Heritage
                 </span>
-                <span className="text-[10px] tracking-widest uppercase text-bronze-500 font-sans font-medium">
-                  Artisanal Panchaloha &bull; Swamimalai
+                <span className="text-[10px] tracking-[0.22em] uppercase text-heritage-muted font-normal">
+                  Swamimalai Atelier
                 </span>
               </div>
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden lg:flex items-center space-x-9">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-sm font-medium tracking-wide text-bronze-800 hover:text-gold-600 transition-colors py-2"
+                  className="text-sm font-normal tracking-[0.04em] text-heritage-cream/85 hover:text-heritage-cream transition-colors relative py-1 group"
                 >
                   {link.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-heritage-cream transition-all duration-300 group-hover:w-full" />
                 </a>
               ))}
             </nav>
 
-            {/* Desktop Actions */}
-            <div className="hidden md:flex items-center gap-4">
+            {/* Desktop Right Utilities */}
+            <div className="hidden md:flex items-center gap-5">
               <a
                 href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="tap-target px-4 text-xs font-semibold uppercase tracking-wider text-bronze-700 bg-parchment-200 hover:bg-parchment-300 rounded-full transition-colors flex items-center gap-2"
-                title="Direct WhatsApp with Master Artisan"
+                className="tap-target px-4 py-2 text-xs font-medium tracking-[0.08em] uppercase text-heritage-cream border border-heritage-border rounded-full hover:bg-heritage-cream/10 transition-colors flex items-center gap-2"
+                title="Direct consultation with master artisan"
               >
-                <Phone className="w-3.5 h-3.5 text-gold-600" />
-                <span>Craft Inquiries</span>
+                <Phone className="w-3.5 h-3.5" />
+                <span>Consultation</span>
               </a>
 
               <Link
                 href="/auth/signin"
-                className="tap-target px-4 text-xs font-semibold uppercase tracking-wider text-parchment-100 bg-bronze-900 hover:bg-bronze-800 rounded-full transition-colors flex items-center gap-2 shadow-sm"
+                className="tap-target text-heritage-cream/80 hover:text-heritage-cream transition-colors p-2"
+                aria-label="Sign In"
               >
-                <User className="w-3.5 h-3.5 text-gold-400" />
-                <span>Sign In</span>
+                <User className="w-5 h-5" />
               </Link>
-            </div>
 
-            {/* Mobile Hamburger Button */}
-            <div className="flex items-center md:hidden gap-2">
               <a
                 href="#shop"
-                className="tap-target text-bronze-800 p-2"
-                aria-label="View Shop"
+                className="tap-target text-heritage-cream/80 hover:text-heritage-cream transition-colors p-2 relative"
+                aria-label="View Cart"
               >
-                <ShoppingBag className="w-6 h-6" />
+                <ShoppingBag className="w-5 h-5" />
+                <span className="absolute top-1 right-1 w-4 h-4 bg-heritage-cream text-heritage-dark text-[10px] font-bold rounded-full flex items-center justify-center">
+                  0
+                </span>
+              </a>
+            </div>
+
+            {/* Mobile Actions */}
+            <div className="flex items-center lg:hidden gap-2">
+              <a
+                href="#shop"
+                className="tap-target text-heritage-cream p-2 relative"
+                aria-label="Cart"
+              >
+                <ShoppingBag className="w-5 h-5" />
               </a>
 
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="tap-target p-2 text-bronze-900 rounded-lg hover:bg-parchment-200 transition-colors"
+                className="tap-target p-2 text-heritage-cream rounded-lg hover:bg-heritage-surface transition-colors"
                 aria-expanded={mobileMenuOpen}
-                aria-label="Toggle navigation menu"
+                aria-label="Toggle navigation"
               >
-                {mobileMenuOpen ? (
-                  <X className="w-7 h-7" />
-                ) : (
-                  <Menu className="w-7 h-7" />
-                )}
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Slide-Out Drawer Navigation */}
+      {/* Mobile Slide-Out Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden flex flex-col justify-end">
-          {/* Backdrop overlay */}
+        <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-end">
           <div
-            className="fixed inset-0 bg-bronze-950/60 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
 
-          {/* Drawer content */}
-          <div className="relative bg-parchment-50 border-t-2 border-gold-500 rounded-t-2xl shadow-2xl p-6 z-10 max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 border-b border-parchment-200">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-bronze-900 border border-gold-500 flex items-center justify-center text-gold-400 font-serif font-bold text-sm">
+          <div className="relative bg-heritage-dark border-t border-heritage-border rounded-t-3xl shadow-2xl p-6 z-10 max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-heritage-border">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full border border-heritage-border flex items-center justify-center font-heading text-xs text-heritage-cream bg-heritage-surface">
                   HB
                 </div>
-                <span className="font-serif font-bold text-bronze-900 text-base uppercase">
-                  Heritage Bronze
+                <span className="font-heading font-semibold text-heritage-cream text-base tracking-[0.15em] uppercase">
+                  Heritage
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="tap-target p-2 text-bronze-700 hover:text-bronze-950 rounded-full"
+                className="tap-target p-2 text-heritage-cream/70 hover:text-heritage-cream"
                 aria-label="Close menu"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            <nav className="mt-6 flex flex-col space-y-2">
+            <nav className="mt-6 flex flex-col space-y-1">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="tap-target w-full justify-start px-4 text-base font-medium text-bronze-900 hover:bg-parchment-200 rounded-lg transition-colors"
+                  className="tap-target w-full justify-between px-3 text-lg font-normal text-heritage-cream hover:text-heritage-cream-hover transition-colors border-b border-heritage-border-light py-4"
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  <ArrowRight className="w-4 h-4 text-heritage-muted" />
                 </a>
               ))}
             </nav>
 
-            <div className="mt-8 pt-6 border-t border-parchment-200 space-y-3">
+            <div className="mt-8 pt-6 border-t border-heritage-border space-y-3">
               <a
                 href={`https://wa.me/${ADMIN_CONFIG.phone.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="tap-target w-full bg-parchment-200 text-bronze-900 hover:bg-parchment-300 font-semibold text-sm rounded-xl px-4 flex items-center justify-center gap-2"
+                className="button-primary w-full"
               >
-                <Phone className="w-4 h-4 text-gold-600" />
-                <span>WhatsApp Master Artisan</span>
+                <Phone className="w-4 h-4 mr-2" />
+                <span>Contact Sthapati via WhatsApp</span>
               </a>
 
               <Link
                 href="/auth/signin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="tap-target w-full bg-bronze-900 text-parchment-100 hover:bg-bronze-800 font-semibold text-sm rounded-xl px-4 flex items-center justify-center gap-2"
+                className="button-secondary w-full"
               >
-                <User className="w-4 h-4 text-gold-400" />
-                <span>Sign In with Google</span>
+                <User className="w-4 h-4 mr-2" />
+                <span>Sign In to Account</span>
               </Link>
             </div>
           </div>

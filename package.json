@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "repo:upload": "bash scripts/upload-to-github.sh"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",

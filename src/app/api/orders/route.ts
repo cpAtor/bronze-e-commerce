@@ -17,15 +17,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (body.syncOrder) {
-      const { getStoreRepository } = await import('@/repositories');
-      await getStoreRepository().saveOrder(body.syncOrder);
-      return NextResponse.json(
-        { success: true, order: body.syncOrder },
-        { status: 200, headers: { 'x-correlation-id': correlationId } }
-      );
-    }
-
     const service = new ProductCatalogService();
     const order = await service.placeOrder(body as CreateOrderInput, correlationId);
 

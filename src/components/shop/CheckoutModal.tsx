@@ -174,16 +174,6 @@ export function CheckoutModal() {
         localStorage.setItem('heritage_saved_address', JSON.stringify(addressToSave));
       } catch {}
 
-      // Cache placed order in localStorage for instant retrieval
-      try {
-        localStorage.setItem(`heritage_order_${data.order.orderCode}`, JSON.stringify(data.order));
-        const existing = JSON.parse(localStorage.getItem('heritage_user_orders') || '[]');
-        const filtered = Array.isArray(existing)
-          ? existing.filter((o: { orderCode?: string }) => o?.orderCode !== data.order.orderCode)
-          : [];
-        localStorage.setItem('heritage_user_orders', JSON.stringify([data.order, ...filtered]));
-      } catch {}
-
       clearCart();
       closeCheckout();
       router.push(`/orders/${data.order.orderCode}`);

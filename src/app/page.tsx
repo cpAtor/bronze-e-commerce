@@ -1,12 +1,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, MessageSquare } from 'lucide-react';
-import { SEED_PREDEFINED_PRODUCTS, SEED_PORTFOLIO_PIECES } from '@/data/seed-data';
+import { getStoreRepository } from '@/repositories';
 import { formatPaiseToInr } from '@/lib/utils';
 import { ADMIN_CONFIG } from '@/lib/config';
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
   const cleanPhone = ADMIN_CONFIG.phone.replace(/[^0-9]/g, '');
+  const repo = getStoreRepository();
+
+  const [products, portfolioPieces] = await Promise.all([
+    repo.listProducts(),
+    repo.listPortfolioPieces(),
+  ]);
+
+  const bestsellers = products.slice(0, 4);
+  const showcasePieces = portfolioPieces.slice(0, 4);
 
   return (
     <div className="bg-heritage-dark text-heritage-cream selection:bg-heritage-cream selection:text-heritage-dark">
@@ -23,7 +34,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Staggered Item 1: Vertical Portrait */}
           <div className="md:col-span-5 space-y-3">
-            <Link href="/shop" className="group block">
+            <Link href="#shop" className="group block">
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-heritage-surface">
                 <Image
                   src="/images/products/bronze-bottle.jpg"
@@ -43,7 +54,7 @@ export default function HomePage() {
 
           {/* Staggered Item 2: Offset Landscape / Square */}
           <div className="md:col-span-7 md:pt-16 lg:pt-24 space-y-3">
-            <Link href="/custom-work" className="group block">
+            <Link href="#custom" className="group block">
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-heritage-surface">
                 <Image
                   src="/images/portfolio/prabhavali.jpg"
@@ -72,12 +83,12 @@ export default function HomePage() {
             </h2>
           </div>
 
-          {/* Floating Borderless Products Grid */}
+          {/* Floating Borderless Products Grid from Real Database */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10 sm:gap-y-12">
-            {SEED_PREDEFINED_PRODUCTS.slice(0, 4).map((product) => (
+            {bestsellers.map((product) => (
               <Link
                 key={product.id}
-                href={`/shop/${product.slug}`}
+                href={`/products/${product.slug}`}
                 className="group flex flex-col space-y-3"
               >
                 {/* Clean floating product image */}
@@ -134,12 +145,12 @@ export default function HomePage() {
             </p>
 
             <div className="pt-4 flex flex-wrap items-center gap-3">
-              <Link href="/shop/fluted-traditional-urli-bowl" className="button-primary text-xs sm:text-sm">
+              <a href="#shop" className="button-primary text-xs sm:text-sm">
                 Shop now
-              </Link>
-              <Link href="/shop" className="button-secondary text-xs sm:text-sm">
+              </a>
+              <a href="#custom" className="button-secondary text-xs sm:text-sm">
                 Explore the collection
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -185,16 +196,18 @@ export default function HomePage() {
             </p>
 
             <div className="pt-4 flex flex-wrap items-center gap-3">
-              <Link
-                href="/custom-work/inquire?piece=nataraja-ananda-tandava-murti"
+              <a
+                href={`https://wa.me/${cleanPhone}?text=Namaskaram%2C%20I%20would%20like%20to%20discuss%20a%20temple%20bronze%20commission`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="button-primary text-xs sm:text-sm"
               >
                 <MessageSquare className="w-3.5 h-3.5 mr-2" />
                 <span>Request custom quote</span>
-              </Link>
-              <Link href="/custom-work" className="button-secondary text-xs sm:text-sm">
+              </a>
+              <a href="#portfolio" className="button-secondary text-xs sm:text-sm">
                 View portfolio
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -211,10 +224,10 @@ export default function HomePage() {
           </span>
         </div>
 
-        {/* Clean floating portfolio showcase */}
+        {/* Clean floating portfolio showcase from Real Database */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
-          {SEED_PORTFOLIO_PIECES.slice(0, 4).map((piece) => (
-            <Link key={piece.id} href={`/custom-work/${piece.slug}`} className="group flex flex-col space-y-3">
+          {showcasePieces.map((piece) => (
+            <div key={piece.id} className="group flex flex-col space-y-3">
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-heritage-surface">
                 <Image
                   src={piece.images[0]}
@@ -232,12 +245,19 @@ export default function HomePage() {
                 <p className="text-xs text-heritage-muted font-light">
                   {piece.referenceDimensions} &bull; {piece.typicalLeadTime}
                 </p>
-                <div className="pt-1 text-xs text-heritage-cream/80 group-hover:underline underline-offset-4 inline-flex items-center gap-1">
-                  <span>Explore Masterwork</span>
-                  <ArrowRight className="w-3 h-3 text-heritage-muted" />
+                <div className="pt-1">
+                  <a
+                    href={`https://wa.me/${cleanPhone}?text=Inquiring%20about%20${encodeURIComponent(piece.name)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-heritage-cream hover:underline underline-offset-4 inline-flex items-center gap-1"
+                  >
+                    <span>Inquire via WhatsApp</span>
+                    <ArrowRight className="w-3 h-3 text-heritage-muted" />
+                  </a>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>

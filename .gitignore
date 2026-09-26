@@ -21,7 +21,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Turso / SQLite local
-*.db
+*.db*
 *.db-journal
 
 # OS / Editor

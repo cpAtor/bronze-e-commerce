@@ -96,7 +96,7 @@ describe('Orders API Route (/api/orders)', () => {
   });
 
   it('returns HTTP 404 for nonexistent order code in GET', async () => {
-    const req = new NextRequest('http://localhost:3000/api/orders?code=ORD-9999');
+    const req = new NextRequest('http://localhost:3000/api/orders?code=ORD-NONEXISTENT-9999');
     const res = await GET(req);
     expect(res.status).toBe(404);
     const data = await res.json();

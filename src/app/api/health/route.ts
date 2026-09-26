@@ -1,24 +1,21 @@
 import { NextResponse } from 'next/server';
+import { getLibsqlClient, ensureDatabaseReady } from '@/db';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    // If DATABASE_URL is provided and LibSQL client is initialized, ping DB
-    const dbUrl = process.env.DATABASE_URL;
-    let dbStatus = 'connected';
+    // Ensure database tables and schema are verified
+    await ensureDatabaseReady();
 
-    if (dbUrl && dbUrl.startsWith('libsql://')) {
-      const { createClient } = await import('@libsql/client');
-      const client = createClient({
-        url: dbUrl,
-        authToken: process.env.DATABASE_AUTH_TOKEN,
-      });
-      await client.execute('SELECT 1');
-    }
+    // Direct ping to database (Turso in prod / local SQLite in dev)
+    const client = getLibsqlClient();
+    await client.execute('SELECT 1 as ping;');
 
     return NextResponse.json(
       {
         status: 'ok',
-        db: dbStatus,
+        db: 'connected',
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
       },
@@ -30,6 +27,7 @@ export async function GET() {
         status: 'error',
         db: 'disconnected',
         message: error instanceof Error ? error.message : 'Database unreachable',
+        timestamp: new Date().toISOString(),
       },
       { status: 503 }
     );

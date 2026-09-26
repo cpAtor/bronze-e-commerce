@@ -10,14 +10,9 @@ interface ProductCardProps {
   product: PredefinedProduct;
 }
 
-// 3 authentic bronze finish swatches matching Shopify Heritage styling
-const FINISH_SWATCHES = [
-  { name: 'Antique Bronze', bg: '#8C6D58' },
-  { name: 'High Polish Gold', bg: '#C8A951' },
-  { name: 'Verdant Patina', bg: '#4A7C59' },
-];
-
 export function ProductCard({ product }: ProductCardProps) {
+  const isOutOfStock = product.stockQuantity <= 0;
+
   return (
     <Link
       href={`/shop/${product.slug}`}
@@ -41,8 +36,12 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
 
         {/* Minimal pill badge */}
-        <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-pill text-[11px] text-heritage-cream/90 font-medium">
-          In stock
+        <div className={`absolute top-3 left-3 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[11px] font-medium ${
+          isOutOfStock
+            ? 'bg-red-950/80 text-red-200 border border-red-800/50'
+            : 'bg-black/60 text-heritage-cream/90'
+        }`}>
+          {isOutOfStock ? 'Out of stock' : 'In stock'}
         </div>
       </div>
 
@@ -54,18 +53,9 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="text-sm font-normal text-heritage-cream/80">
           {formatPaiseToInr(product.pricePaise)}
         </p>
-
-        {/* Finish Color Swatches */}
-        <div className="flex items-center gap-1.5 pt-1" aria-label="Available finishes">
-          {FINISH_SWATCHES.map((swatch) => (
-            <span
-              key={swatch.name}
-              className="w-3.5 h-3.5 rounded-full border border-white/20 inline-block"
-              style={{ backgroundColor: swatch.bg }}
-              title={swatch.name}
-            />
-          ))}
-        </div>
+        <p className="text-xs text-heritage-muted font-light line-clamp-1">
+          {product.weight} &bull; {product.dimensions}
+        </p>
       </div>
     </Link>
   );

@@ -23,22 +23,17 @@ interface ProductDetailViewProps {
   relatedProducts?: PredefinedProduct[];
 }
 
-const FINISHES = [
-  { id: 'antique', name: 'Antique Bronze', bg: '#8C6D58' },
-  { id: 'gold', name: 'High Polish Gold', bg: '#C8A951' },
-  { id: 'patina', name: 'Verdant Patina', bg: '#4A7C59' },
-];
-
 export function ProductDetailView({ product, relatedProducts = [] }: ProductDetailViewProps) {
-  const { addToCart, openCheckout, openCart } = useCart();
+  const { addToCart, openCheckout } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [selectedFinish, setSelectedFinish] = useState(FINISHES[0]);
 
   // Accordion toggle states
   const [materialsOpen, setMaterialsOpen] = useState(true);
   const [careOpen, setCareOpen] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
+
+  const isOutOfStock = product.stockQuantity <= 0;
 
   const images = product.images && product.images.length > 0
     ? product.images
@@ -116,37 +111,6 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
             </p>
           </div>
 
-          {/* Finish / Color Swatches */}
-          <div className="space-y-2 pt-2">
-            <span className="text-xs text-heritage-cream/80 block">
-              Finish: <strong className="text-heritage-cream font-medium">{selectedFinish.name}</strong>
-            </span>
-            <div className="flex items-center gap-3">
-              {FINISHES.map((finish) => {
-                const isSelected = selectedFinish.id === finish.id;
-                return (
-                  <button
-                    key={finish.id}
-                    type="button"
-                    onClick={() => setSelectedFinish(finish)}
-                    className={`w-7 h-7 rounded-full transition-all flex items-center justify-center p-0.5 ${
-                      isSelected
-                        ? 'ring-2 ring-heritage-cream ring-offset-2 ring-offset-heritage-dark'
-                        : 'opacity-80 hover:opacity-100'
-                    }`}
-                    aria-label={`Select ${finish.name} finish`}
-                    title={finish.name}
-                  >
-                    <span
-                      className="w-full h-full rounded-full border border-black/30"
-                      style={{ backgroundColor: finish.bg }}
-                    />
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
           {/* Specifications Pills */}
           <div className="space-y-2 pt-1">
             <span className="text-xs text-heritage-cream/80 block">Specifications</span>
@@ -158,7 +122,14 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
                 {product.dimensions}
               </span>
               <span className="px-3 py-1.5 rounded-full bg-heritage-surface border border-heritage-border">
-                Panchaloha Bell Metal
+                {product.alloyDescription}
+              </span>
+              <span className={`px-3 py-1.5 rounded-full border ${
+                isOutOfStock
+                  ? 'bg-red-950/40 border-red-800/60 text-red-300'
+                  : 'bg-heritage-surface border-heritage-border text-heritage-cream/90'
+              }`}>
+                {isOutOfStock ? 'Out of stock' : `${product.stockQuantity} in stock`}
               </span>
             </div>
           </div>
@@ -170,7 +141,8 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-8 h-8 flex items-center justify-center text-heritage-cream/80 hover:text-heritage-cream transition-colors"
+                disabled={isOutOfStock}
+                className="w-8 h-8 flex items-center justify-center text-heritage-cream/80 hover:text-heritage-cream disabled:opacity-40 transition-colors"
                 aria-label="Decrease quantity"
               >
                 <Minus className="w-3.5 h-3.5" />
@@ -180,8 +152,9 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
               </span>
               <button
                 type="button"
-                onClick={() => setQuantity(quantity + 1)}
-                className="w-8 h-8 flex items-center justify-center text-heritage-cream/80 hover:text-heritage-cream transition-colors"
+                onClick={() => setQuantity(Math.min(product.stockQuantity, quantity + 1))}
+                disabled={isOutOfStock || quantity >= product.stockQuantity}
+                className="w-8 h-8 flex items-center justify-center text-heritage-cream/80 hover:text-heritage-cream disabled:opacity-40 transition-colors"
                 aria-label="Increase quantity"
               >
                 <Plus className="w-3.5 h-3.5" />
@@ -192,10 +165,11 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
             <button
               type="button"
               onClick={handleAddToCart}
-              className="flex-1 min-h-[44px] rounded-full border border-heritage-cream/30 hover:border-heritage-cream bg-transparent hover:bg-heritage-surface text-heritage-cream font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+              disabled={isOutOfStock}
+              className="flex-1 min-h-[44px] rounded-full border border-heritage-cream/30 hover:border-heritage-cream disabled:opacity-40 disabled:hover:border-heritage-cream/30 bg-transparent hover:bg-heritage-surface text-heritage-cream font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
             >
               <ShoppingBag className="w-4 h-4" />
-              <span>Add to cart</span>
+              <span>{isOutOfStock ? 'Out of stock' : 'Add to cart'}</span>
             </button>
           </div>
 
@@ -204,18 +178,16 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
             <button
               type="button"
               onClick={handleBuyNow}
-              className="button-primary w-full text-sm sm:text-base"
+              disabled={isOutOfStock}
+              className="button-primary w-full text-sm sm:text-base disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              Buy it now
+              {isOutOfStock ? 'Currently Unavailable' : 'Buy it now'}
             </button>
           </div>
 
-          {/* Product Description */}
-          <div className="pt-4 text-xs sm:text-sm text-heritage-cream/80 leading-relaxed space-y-3">
+          {/* Product Description from Database */}
+          <div className="pt-4 text-xs sm:text-sm text-heritage-cream/80 leading-relaxed">
             <p>{product.description}</p>
-            <p className="italic text-heritage-muted text-xs">
-              Handmade by hereditary sthapatis in Kumbakonam using ancient lost-wax casting.
-            </p>
           </div>
 
           {/* 4-Reassurance Icons Row (Shopify Heritage demo style) */}
@@ -246,7 +218,7 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
             </div>
           </div>
 
-          {/* Clean Accordions: Materials, Care, Details */}
+          {/* Clean Accordions: Materials, Care, Details - All from Database */}
           <div className="divide-y divide-heritage-border/70 text-xs sm:text-sm">
             {/* Materials */}
             <div className="py-3.5">
@@ -265,7 +237,7 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
               </button>
               {materialsOpen && (
                 <p className="mt-2 text-xs text-heritage-cream/80 leading-relaxed">
-                  Authentic Kumbakonam Panchaloha and bronze alloy crafted from copper, tin, and zinc following traditional temple foundry standards.
+                  {product.alloyDescription}
                 </p>
               )}
             </div>
@@ -287,7 +259,7 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
               </button>
               {careOpen && (
                 <p className="mt-2 text-xs text-heritage-cream/80 leading-relaxed">
-                  {product.careGuide || 'Clean periodically with tamarind paste or pitambari powder, wash with clean water and dry thoroughly with a soft cloth.'}
+                  {product.careGuide}
                 </p>
               )}
             </div>
@@ -312,7 +284,7 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
                   <p>Weight: {product.weight}</p>
                   <p>Dimensions: {product.dimensions}</p>
                   <p>Alloy Composition: {product.alloyDescription}</p>
-                  <p>Origin: Kumbakonam, Tamil Nadu</p>
+                  <p>Availability: {product.stockQuantity > 0 ? `${product.stockQuantity} units available` : 'Out of stock'}</p>
                 </div>
               )}
             </div>
@@ -351,7 +323,7 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
               {product.name}
             </p>
             <p className="text-[11px] text-heritage-cream/70 truncate">
-              {selectedFinish.name} • {formatPaiseToInr(product.pricePaise)}
+              {formatPaiseToInr(product.pricePaise)} • {isOutOfStock ? 'Out of stock' : `${product.weight}`}
             </p>
           </div>
         </div>
@@ -359,7 +331,8 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
         <button
           type="button"
           onClick={handleAddToCart}
-          className="w-11 h-11 rounded-full bg-heritage-cream text-heritage-dark flex items-center justify-center shadow-lg active:scale-90 transition-transform shrink-0"
+          disabled={isOutOfStock}
+          className="w-11 h-11 rounded-full bg-heritage-cream text-heritage-dark flex items-center justify-center shadow-lg active:scale-90 disabled:opacity-40 transition-transform shrink-0"
           aria-label="Add to cart"
         >
           <ShoppingBag className="w-5 h-5" />

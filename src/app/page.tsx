@@ -23,9 +23,14 @@ export default async function HomePage() {
   const heroLifestyleProduct = products[1] || products[0];
   const heroTemplePiece = portfolioPieces[1] || portfolioPieces[0];
   const featuredLifestyle =
-    products.find((p) => p.slug === 'bronze-urli') || products[0];
+    products.find((p) => p.slug === 'fluted-traditional-urli-bowl') ||
+    products.find((p) => p.slug.includes('urli')) ||
+    products[4] ||
+    products[0];
   const featuredSanctum =
-    portfolioPieces.find((p) => p.slug === 'nataraja-murti') || portfolioPieces[0];
+    portfolioPieces.find((p) => p.slug === 'nataraja-ananda-tandava-murti') ||
+    portfolioPieces.find((p) => p.slug.includes('nataraja')) ||
+    portfolioPieces[0];
 
   return (
     <div className="bg-heritage-dark text-heritage-cream selection:bg-heritage-cream selection:text-heritage-dark">
@@ -111,50 +116,50 @@ export default async function HomePage() {
 
           {/* Floating Borderless Products Grid from Real Database */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10 sm:gap-y-12">
-            {bestsellers.map((product) => (
-              <Link
-                key={product.id}
-                href={`/shop/${product.slug}`}
-                className="group flex flex-col space-y-3"
-              >
-                {/* Clean floating product image */}
-                <div className="relative aspect-square w-full overflow-hidden bg-heritage-surface">
-                  {product.images[0] ? (
-                    <Image
-                      src={product.images[0]}
-                      alt={product.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 25vw"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-heritage-muted text-xs">
-                      Handcrafted Bronze
+            {bestsellers.map((product) => {
+              const isOutOfStock = product.stockQuantity <= 0;
+              return (
+                <Link
+                  key={product.id}
+                  href={`/shop/${product.slug}`}
+                  className="group flex flex-col space-y-3"
+                >
+                  {/* Clean floating product image */}
+                  <div className="relative aspect-square w-full overflow-hidden bg-heritage-surface">
+                    {product.images[0] ? (
+                      <Image
+                        src={product.images[0]}
+                        alt={product.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 25vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-heritage-muted text-xs">
+                        Handcrafted Bronze
+                      </div>
+                    )}
+                    <div className={`absolute top-2.5 left-2.5 backdrop-blur-sm px-2.5 py-0.5 rounded-full text-[10px] font-normal ${
+                      isOutOfStock ? 'bg-red-950/80 text-red-200' : 'bg-black/60 text-heritage-cream'
+                    }`}>
+                      {isOutOfStock ? 'Out of Stock' : 'In Stock'}
                     </div>
-                  )}
-                  <div className="absolute top-2.5 left-2.5 bg-black/60 backdrop-blur-sm px-2.5 py-0.5 rounded-full text-[10px] font-normal text-heritage-cream">
-                    In Stock
-                  </div>
-                </div>
-
-                {/* Minimal typography hierarchy */}
-                <div className="space-y-1">
-                  <h3 className="font-heading font-normal text-sm sm:text-base text-heritage-cream group-hover:text-heritage-cream-hover transition-colors line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-heritage-muted font-light">
-                    <span className="text-heritage-cream">{formatPaiseToInr(product.pricePaise)}</span>
                   </div>
 
-                  {/* Semantic Finish Swatch Dots */}
-                  <div className="flex items-center gap-1.5 pt-1.5" aria-label="Available finishes">
-                    <span className="w-2.5 h-2.5 rounded-full bg-heritage-bronze border border-white/20" title="Traditional Bronze" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-heritage-gold border border-white/20" title="High Polish Gold" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-heritage-patina border border-white/20" title="Verdant Patina" />
+                  {/* Minimal typography hierarchy */}
+                  <div className="space-y-1">
+                    <h3 className="font-heading font-normal text-sm sm:text-base text-heritage-cream group-hover:text-heritage-cream-hover transition-colors line-clamp-1">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-heritage-muted font-light">
+                      <span className="text-heritage-cream">{formatPaiseToInr(product.pricePaise)}</span>
+                      <span>&bull;</span>
+                      <span>{product.weight}</span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

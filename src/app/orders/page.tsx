@@ -10,6 +10,17 @@ export default function TrackOrderPage() {
   const router = useRouter();
   const [orderCode, setOrderCode] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [recentOrders, setRecentOrders] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    try {
+      const raw = localStorage.getItem('heritage_user_orders');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) setRecentOrders(parsed);
+      }
+    } catch {}
+  }, []);
 
   const handleLookup = (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,6 +100,37 @@ export default function TrackOrderPage() {
             </Link>
           </div>
         </div>
+
+        {/* Recent Orders if available */}
+        {recentOrders.length > 0 && (
+          <div className="bg-heritage-surface/60 border border-heritage-border rounded-2xl p-6 sm:p-8 space-y-4">
+            <h2 className="font-heading text-lg font-normal text-heritage-cream">
+              Your Placed Orders
+            </h2>
+            <div className="space-y-3">
+              {recentOrders.map((ro) => (
+                <Link
+                  key={ro.orderCode}
+                  href={`/orders/${ro.orderCode}`}
+                  className="flex items-center justify-between p-3.5 rounded-xl bg-heritage-dark border border-heritage-border hover:border-amber-400/50 transition-colors"
+                >
+                  <div>
+                    <span className="font-mono text-sm font-semibold text-amber-300">
+                      {ro.orderCode}
+                    </span>
+                    <p className="text-xs text-heritage-muted mt-0.5">
+                      {ro.items?.map((it: any) => it.productName).join(', ') || 'Heirloom bronze ware'}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-heritage-cream">
+                    <span>{ro.status || 'Ordered'}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-heritage-muted" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Assistance Box */}
         <div className="bg-heritage-darker p-5 rounded-xl border border-heritage-border-light flex items-start gap-3 text-xs text-heritage-muted">

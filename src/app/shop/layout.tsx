@@ -16,13 +16,8 @@ export default function ShopLayout({
   children: React.ReactNode;
 }) {
   return (
-    <CartProvider>
-      <div className="relative min-h-screen">
-        {children}
-        <CartDrawer />
-        <CheckoutModal />
-        <FloatingCartButton />
-      </div>
-    </CartProvider>
+    <div className="relative min-h-screen">
+      {children}
+    </div>
   );
 }

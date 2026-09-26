@@ -36,10 +36,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const allProducts = await service.browseProducts();
+  const relatedProducts = allProducts.filter((p) => p.id !== product.id).slice(0, 4);
+
   return (
-    <main className="bg-heritage-dark text-heritage-cream min-h-screen pt-6 pb-20">
+    <main className="bg-heritage-dark text-heritage-cream min-h-screen pt-4 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ProductDetailView product={product} />
+        <ProductDetailView product={product} relatedProducts={relatedProducts} />
       </div>
     </main>
   );

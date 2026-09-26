@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, ShoppingBag, Search, User, Phone, ArrowRight } from 'lucide-react';
 import { ADMIN_CONFIG } from '@/lib/config';
+import { useCart } from '@/components/shop/CartContext';
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { itemCount, openCart } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,16 +89,19 @@ export function Navigation() {
               >
                 <User className="w-5 h-5" />
               </Link>
-              <Link
-                href="/shop"
+              <button
+                type="button"
+                onClick={openCart}
                 className="tap-target text-heritage-cream/90 hover:text-heritage-cream transition-colors p-2 relative"
-                aria-label="Cart"
+                aria-label={`Shopping bag with ${itemCount} items`}
               >
                 <ShoppingBag className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-heritage-cream text-heritage-dark text-[9px] font-bold rounded-full flex items-center justify-center">
-                  0
-                </span>
-              </Link>
+                {itemCount > 0 && (
+                  <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 bg-heritage-cream text-heritage-dark text-[10px] font-bold rounded-full flex items-center justify-center shadow-md animate-in zoom-in-75 duration-200">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>

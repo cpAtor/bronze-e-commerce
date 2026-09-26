@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import type { StoreRepository } from '@/domain/services';
 import type {
   PredefinedProduct,
@@ -12,6 +14,8 @@ import {
   SEED_PORTFOLIO_PIECES,
 } from '@/data/seed-data';
 
+const TMP_STATE_PATH = path.join('/tmp', 'heritage_store_state.json');
+
 export class InMemoryStoreRepository implements StoreRepository {
   private products = new Map<string, PredefinedProduct>();
   private portfolioPieces = new Map<string, PortfolioPiece>();
@@ -23,9 +27,54 @@ export class InMemoryStoreRepository implements StoreRepository {
     return JSON.parse(JSON.stringify(val));
   }
 
+  private loadFromDisk(): void {
+    try {
+      if (
+        typeof window === 'undefined' &&
+        process.env.NODE_ENV !== 'test' &&
+        !process.env.VITEST &&
+        fs.existsSync(TMP_STATE_PATH)
+      ) {
+        const raw = fs.readFileSync(TMP_STATE_PATH, 'utf-8');
+        const data = JSON.parse(raw);
+        if (data.orders && Array.isArray(data.orders)) {
+          for (const o of data.orders) {
+            this.orders.set(o.id, o);
+          }
+        }
+        if (data.commissionInquiries && Array.isArray(data.commissionInquiries)) {
+          for (const c of data.commissionInquiries) {
+            this.commissionInquiries.set(c.id, c);
+          }
+        }
+      }
+    } catch {
+      // Ignore disk read errors
+    }
+  }
+
+  private saveToDisk(): void {
+    try {
+      if (
+        typeof window === 'undefined' &&
+        process.env.NODE_ENV !== 'test' &&
+        !process.env.VITEST
+      ) {
+        const data = {
+          orders: Array.from(this.orders.values()),
+          commissionInquiries: Array.from(this.commissionInquiries.values()),
+        };
+        fs.writeFileSync(TMP_STATE_PATH, JSON.stringify(data), 'utf-8');
+      }
+    } catch {
+      // Ignore disk write errors
+    }
+  }
+
   constructor(seed = true) {
     if (seed) {
       this.resetToSeed();
+      this.loadFromDisk();
     }
   }
 
@@ -106,10 +155,19 @@ export class InMemoryStoreRepository implements StoreRepository {
   // Orders
   async findOrderById(id: string): Promise<Order | null> {
     const order = this.orders.get(id);
-    return order ? JSON.parse(JSON.stringify(order)) : null;
+    if (order) return JSON.parse(JSON.stringify(order));
+    this.loadFromDisk();
+    const diskOrder = this.orders.get(id);
+    return diskOrder ? JSON.parse(JSON.stringify(diskOrder)) : null;
   }
 
   async findOrderByCode(orderCode: string): Promise<Order | null> {
+    for (const order of this.orders.values()) {
+      if (order.orderCode === orderCode) {
+        return JSON.parse(JSON.stringify(order));
+      }
+    }
+    this.loadFromDisk();
     for (const order of this.orders.values()) {
       if (order.orderCode === orderCode) {
         return JSON.parse(JSON.stringify(order));
@@ -119,6 +177,7 @@ export class InMemoryStoreRepository implements StoreRepository {
   }
 
   async listOrdersByCustomerId(customerId: string): Promise<Order[]> {
+    this.loadFromDisk();
     const results: Order[] = [];
     for (const order of this.orders.values()) {
       if (order.customerId === customerId) {
@@ -129,6 +188,7 @@ export class InMemoryStoreRepository implements StoreRepository {
   }
 
   async listAllOrders(): Promise<Order[]> {
+    this.loadFromDisk();
     return Array.from(this.orders.values())
       .map((o) => JSON.parse(JSON.stringify(o)))
       .sort((a, b) => b.createdAt - a.createdAt);
@@ -136,6 +196,7 @@ export class InMemoryStoreRepository implements StoreRepository {
 
   async saveOrder(order: Order): Promise<void> {
     this.orders.set(order.id, JSON.parse(JSON.stringify(order)));
+    this.saveToDisk();
   }
 
   // Commission Inquiries
@@ -143,7 +204,10 @@ export class InMemoryStoreRepository implements StoreRepository {
     id: string
   ): Promise<CommissionInquiry | null> {
     const item = this.commissionInquiries.get(id);
-    return item ? JSON.parse(JSON.stringify(item)) : null;
+    if (item) return JSON.parse(JSON.stringify(item));
+    this.loadFromDisk();
+    const diskItem = this.commissionInquiries.get(id);
+    return diskItem ? JSON.parse(JSON.stringify(diskItem)) : null;
   }
 
   async findCommissionInquiryByCode(
@@ -154,10 +218,17 @@ export class InMemoryStoreRepository implements StoreRepository {
         return JSON.parse(JSON.stringify(item));
       }
     }
+    this.loadFromDisk();
+    for (const item of this.commissionInquiries.values()) {
+      if (item.commissionCode === commissionCode) {
+        return JSON.parse(JSON.stringify(item));
+      }
+    }
     return null;
   }
 
   async listCommissionInquiries(): Promise<CommissionInquiry[]> {
+    this.loadFromDisk();
     return Array.from(this.commissionInquiries.values())
       .map((item) => JSON.parse(JSON.stringify(item)))
       .sort((a, b) => b.createdAt - a.createdAt);
@@ -168,6 +239,7 @@ export class InMemoryStoreRepository implements StoreRepository {
       inquiry.id,
       JSON.parse(JSON.stringify(inquiry))
     );
+    this.saveToDisk();
   }
 
   // Customers

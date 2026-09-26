@@ -23,7 +23,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Staggered Item 1: Vertical Portrait */}
           <div className="md:col-span-5 space-y-3">
-            <Link href="#shop" className="group block">
+            <Link href="/shop" className="group block">
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-heritage-surface">
                 <Image
                   src="/images/products/bronze-bottle.jpg"
@@ -43,7 +43,7 @@ export default function HomePage() {
 
           {/* Staggered Item 2: Offset Landscape / Square */}
           <div className="md:col-span-7 md:pt-16 lg:pt-24 space-y-3">
-            <Link href="#custom" className="group block">
+            <Link href="/custom-work" className="group block">
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-heritage-surface">
                 <Image
                   src="/images/portfolio/prabhavali.jpg"
@@ -77,7 +77,7 @@ export default function HomePage() {
             {SEED_PREDEFINED_PRODUCTS.slice(0, 4).map((product) => (
               <Link
                 key={product.id}
-                href={`/products/${product.slug}`}
+                href={`/shop/${product.slug}`}
                 className="group flex flex-col space-y-3"
               >
                 {/* Clean floating product image */}
@@ -134,12 +134,12 @@ export default function HomePage() {
             </p>
 
             <div className="pt-4 flex flex-wrap items-center gap-3">
-              <a href="#shop" className="button-primary text-xs sm:text-sm">
+              <Link href="/shop/fluted-traditional-urli-bowl" className="button-primary text-xs sm:text-sm">
                 Shop now
-              </a>
-              <a href="#custom" className="button-secondary text-xs sm:text-sm">
+              </Link>
+              <Link href="/shop" className="button-secondary text-xs sm:text-sm">
                 Explore the collection
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -185,18 +185,16 @@ export default function HomePage() {
             </p>
 
             <div className="pt-4 flex flex-wrap items-center gap-3">
-              <a
-                href={`https://wa.me/${cleanPhone}?text=Namaskaram%2C%20I%20would%20like%20to%20discuss%20a%20temple%20bronze%20commission`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/custom-work/inquire?piece=nataraja-ananda-tandava-murti"
                 className="button-primary text-xs sm:text-sm"
               >
                 <MessageSquare className="w-3.5 h-3.5 mr-2" />
                 <span>Request custom quote</span>
-              </a>
-              <a href="#portfolio" className="button-secondary text-xs sm:text-sm">
+              </Link>
+              <Link href="/custom-work" className="button-secondary text-xs sm:text-sm">
                 View portfolio
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -216,7 +214,7 @@ export default function HomePage() {
         {/* Clean floating portfolio showcase */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
           {SEED_PORTFOLIO_PIECES.slice(0, 4).map((piece) => (
-            <div key={piece.id} className="group flex flex-col space-y-3">
+            <Link key={piece.id} href={`/custom-work/${piece.slug}`} className="group flex flex-col space-y-3">
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-heritage-surface">
                 <Image
                   src={piece.images[0]}
@@ -234,19 +232,12 @@ export default function HomePage() {
                 <p className="text-xs text-heritage-muted font-light">
                   {piece.referenceDimensions} &bull; {piece.typicalLeadTime}
                 </p>
-                <div className="pt-1">
-                  <a
-                    href={`https://wa.me/${cleanPhone}?text=Inquiring%20about%20${encodeURIComponent(piece.name)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-heritage-cream hover:underline underline-offset-4 inline-flex items-center gap-1"
-                  >
-                    <span>Inquire via WhatsApp</span>
-                    <ArrowRight className="w-3 h-3 text-heritage-muted" />
-                  </a>
+                <div className="pt-1 text-xs text-heritage-cream/80 group-hover:underline underline-offset-4 inline-flex items-center gap-1">
+                  <span>Explore Masterwork</span>
+                  <ArrowRight className="w-3 h-3 text-heritage-muted" />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

@@ -3,6 +3,7 @@ import { Instrument_Sans } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { GlobalCartProvider } from '@/components/shop/GlobalCartProvider';
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
@@ -31,9 +32,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${instrumentSans.variable} font-sans`}>
       <body className="min-h-screen flex flex-col bg-heritage-dark text-heritage-cream font-sans selection:bg-heritage-cream selection:text-heritage-dark">
-        <Navigation />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <GlobalCartProvider>
+          <Navigation />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </GlobalCartProvider>
       </body>
     </html>
   );

@@ -29,10 +29,45 @@ export function CheckoutModal() {
   const [state, setState] = useState('Tamil Nadu');
   const [postalCode, setPostalCode] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'upi'>('upi');
+  const [hasSavedAddress, setHasSavedAddress] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Auto-fill saved address from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('heritage_saved_address');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.fullName) setFullName(parsed.fullName);
+        if (parsed.email) setEmail(parsed.email);
+        if (parsed.phone) setPhone(parsed.phone);
+        if (parsed.addressLine1) setAddressLine1(parsed.addressLine1);
+        if (parsed.addressLine2) setAddressLine2(parsed.addressLine2);
+        if (parsed.city) setCity(parsed.city);
+        if (parsed.state) setState(parsed.state);
+        if (parsed.postalCode) setPostalCode(parsed.postalCode);
+        setHasSavedAddress(true);
+      }
+    } catch {}
+  }, []);
+
+  const handleClearSavedAddress = () => {
+    try {
+      localStorage.removeItem('heritage_saved_address');
+    } catch {}
+    setFullName('');
+    setEmail('');
+    setPhone('');
+    setAddressLine1('');
+    setAddressLine2('');
+    setCity('');
+    setState('Tamil Nadu');
+    setPostalCode('');
+    setHasSavedAddress(false);
+  };
 
   // Close on Escape
   useEffect(() => {
@@ -123,6 +158,31 @@ export function CheckoutModal() {
       if (!res.ok) {
         throw new Error(data.error || 'Failed to place order. Please try again.');
       }
+
+      // Auto-save address for future orders
+      try {
+        const addressToSave = {
+          fullName: fullName.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          addressLine1: addressLine1.trim(),
+          addressLine2: addressLine2.trim(),
+          city: city.trim(),
+          state: state.trim(),
+          postalCode: postalCode.trim(),
+        };
+        localStorage.setItem('heritage_saved_address', JSON.stringify(addressToSave));
+      } catch {}
+
+      // Cache placed order in localStorage for instant retrieval
+      try {
+        localStorage.setItem(`heritage_order_${data.order.orderCode}`, JSON.stringify(data.order));
+        const existing = JSON.parse(localStorage.getItem('heritage_user_orders') || '[]');
+        const filtered = Array.isArray(existing)
+          ? existing.filter((o: { orderCode?: string }) => o?.orderCode !== data.order.orderCode)
+          : [];
+        localStorage.setItem('heritage_user_orders', JSON.stringify([data.order, ...filtered]));
+      } catch {}
 
       clearCart();
       closeCheckout();
@@ -237,9 +297,23 @@ export function CheckoutModal() {
 
           {/* Section: Shipping Address */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-heritage-cream tracking-wide uppercase text-amber-100/90 border-b border-heritage-border pb-1">
-              2. Shipping Address (India)
-            </h3>
+            <div className="flex items-center justify-between border-b border-heritage-border pb-1">
+              <h3 className="text-sm font-semibold text-heritage-cream tracking-wide uppercase text-amber-100/90">
+                2. Shipping Address (India)
+              </h3>
+              {hasSavedAddress && (
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="text-emerald-400 font-medium">✓ Saved address applied</span>
+                  <button
+                    type="button"
+                    onClick={handleClearSavedAddress}
+                    className="text-heritage-muted hover:text-red-400 underline text-[11px]"
+                  >
+                    Clear
+                  </button>
+                </div>
+              )}
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
                 <label htmlFor="checkout-addressLine1" className="block text-xs font-medium text-heritage-cream/90 mb-1">

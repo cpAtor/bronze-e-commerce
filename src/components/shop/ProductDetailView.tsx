@@ -7,25 +7,38 @@ import {
   ShoppingBag,
   Plus,
   Minus,
-  CheckCircle,
-  Truck,
-  ShieldCheck,
   Sparkles,
-  Info,
-  ArrowLeft,
+  ShieldCheck,
+  Flame,
+  Hammer,
+  ChevronDown,
 } from 'lucide-react';
 import type { PredefinedProduct } from '@/domain/types';
 import { formatPaiseToInr } from '@/lib/utils';
 import { useCart } from './CartContext';
+import { ProductCard } from './ProductCard';
 
 interface ProductDetailViewProps {
   product: PredefinedProduct;
+  relatedProducts?: PredefinedProduct[];
 }
 
-export function ProductDetailView({ product }: ProductDetailViewProps) {
-  const { addToCart } = useCart();
+const FINISHES = [
+  { id: 'antique', name: 'Antique Bronze', bg: '#8C6D58' },
+  { id: 'gold', name: 'High Polish Gold', bg: '#C8A951' },
+  { id: 'patina', name: 'Verdant Patina', bg: '#4A7C59' },
+];
+
+export function ProductDetailView({ product, relatedProducts = [] }: ProductDetailViewProps) {
+  const { addToCart, openCheckout, openCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedFinish, setSelectedFinish] = useState(FINISHES[0]);
+
+  // Accordion toggle states
+  const [materialsOpen, setMaterialsOpen] = useState(true);
+  const [careOpen, setCareOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const images = product.images && product.images.length > 0
     ? product.images
@@ -35,232 +48,322 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
     addToCart(product, quantity);
   };
 
+  const handleBuyNow = () => {
+    addToCart(product, quantity);
+    openCheckout();
+  };
+
   return (
-    <div className="pb-24 md:pb-16">
+    <div className="pb-24 md:pb-16 max-w-5xl mx-auto">
       {/* Breadcrumb Navigation */}
       <nav className="mb-6 flex items-center gap-2 text-xs text-heritage-muted" aria-label="Breadcrumb">
         <Link href="/" className="hover:text-heritage-cream transition-colors">
           Home
         </Link>
         <span>/</span>
-        <Link href="/shop" className="hover:text-heritage-cream transition-colors flex items-center gap-1">
-          <ArrowLeft className="w-3 h-3" />
-          <span>Artisanal Wares</span>
+        <Link href="/shop" className="hover:text-heritage-cream transition-colors">
+          Artisanal Wares
         </Link>
         <span>/</span>
-        <span className="text-heritage-cream font-medium line-clamp-1">{product.name}</span>
+        <span className="text-heritage-cream line-clamp-1">{product.name}</span>
       </nav>
 
-      {/* Main Grid: Left Images, Right Details */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-        {/* Left: Product Images (5 or 6 cols) */}
-        <div className="lg:col-span-6 space-y-4">
-          <div className="relative aspect-square w-full bg-heritage-surface rounded-2xl overflow-hidden border border-heritage-border shadow-2xl">
+      {/* Main Grid: Images Left, Details Right */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-14 items-start">
+        {/* Left: Product Media */}
+        <div className="space-y-4">
+          <div className="relative aspect-[4/5] sm:aspect-square w-full bg-heritage-surface rounded-2xl overflow-hidden border border-heritage-border/80 shadow-2xl">
             <Image
               src={images[selectedImageIndex] || images[0]}
               alt={product.name}
               fill
               priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
-
-            {/* Badges */}
-            <div className="absolute top-4 left-4 bg-heritage-dark/90 backdrop-blur-md px-3 py-1.5 rounded-pill border border-heritage-border text-xs uppercase tracking-wider text-amber-200 flex items-center gap-1.5 shadow-md">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Authentic Kumbakonam Craft</span>
-            </div>
-
-            <div className="absolute bottom-4 right-4 bg-heritage-dark/90 backdrop-blur-md px-3 py-1 rounded-pill border border-heritage-border text-xs text-heritage-cream/90 font-mono">
-              Weight: {product.weight}
-            </div>
           </div>
 
-          {/* Thumbnail Strip (if multiple) */}
+          {/* Thumbnails if multiple */}
           {images.length > 1 && (
-            <div className="flex gap-3 overflow-x-auto pb-2">
+            <div className="flex gap-3 overflow-x-auto pb-1">
               {images.map((img, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => setSelectedImageIndex(idx)}
-                  className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 shrink-0 transition-all min-h-tap min-w-tap ${
+                  className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 shrink-0 transition-all ${
                     selectedImageIndex === idx
-                      ? 'border-amber-400 ring-2 ring-amber-400/20'
-                      : 'border-heritage-border hover:border-heritage-cream/50'
+                      ? 'border-heritage-cream ring-2 ring-heritage-cream/30'
+                      : 'border-heritage-border opacity-70 hover:opacity-100'
                   }`}
-                  aria-label={`View image ${idx + 1} of ${product.name}`}
+                  aria-label={`View image ${idx + 1}`}
                 >
-                  <Image src={img} alt="" fill className="object-cover" sizes="80px" />
+                  <Image src={img} alt="" fill className="object-cover" sizes="64px" />
                 </button>
               ))}
             </div>
           )}
         </div>
 
-        {/* Right: Product Specifications & Actions (6 or 7 cols) */}
-        <div className="lg:col-span-6 space-y-6">
-          <div className="space-y-2">
-            <span className="text-xs uppercase tracking-[0.2em] text-amber-300 font-semibold block">
-              Heirloom Panchaloha Ware
-            </span>
-            <h1 className="font-heading text-2xl sm:text-4xl font-medium tracking-display text-heritage-cream leading-tight">
+        {/* Right: Product Buy Box (Faithful to Shopify Heritage theme) */}
+        <div className="space-y-5">
+          <div className="space-y-1">
+            <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-heritage-cream leading-tight">
               {product.name}
             </h1>
-            <div className="flex items-baseline gap-3 pt-1">
-              <span className="text-2xl sm:text-3xl font-semibold font-mono text-heritage-cream">
-                {formatPaiseToInr(product.pricePaise)}
-              </span>
-              <span className="text-xs text-emerald-400 bg-emerald-950/60 border border-emerald-800 px-2.5 py-0.5 rounded-pill flex items-center gap-1 font-medium">
-                <Truck className="w-3.5 h-3.5" />
-                <span>
-                  {product.pricePaise >= 250000 ? 'Free Insured Courier Shipping' : '+ ₹150 Courier Delivery'}
-                </span>
-              </span>
-            </div>
-          </div>
-
-          {/* Description */}
-          <div className="prose prose-invert max-w-none text-sm text-heritage-muted leading-relaxed">
-            <p>{product.description}</p>
-          </div>
-
-          {/* Craft Specifications Card */}
-          <div className="bg-heritage-surface/60 border border-heritage-border rounded-xl p-4 sm:p-5 space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-amber-200 flex items-center gap-1.5">
-              <Info className="w-3.5 h-3.5 text-amber-400" />
-              <span>Craft & Alloy Specifications</span>
-            </h3>
-
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="bg-heritage-dark/80 p-2.5 rounded-lg border border-heritage-border-light">
-                <span className="text-heritage-muted block text-[10px] uppercase">Alloy Composition</span>
-                <span className="text-heritage-cream font-medium block mt-0.5">{product.alloyDescription}</span>
-              </div>
-              <div className="bg-heritage-dark/80 p-2.5 rounded-lg border border-heritage-border-light">
-                <span className="text-heritage-muted block text-[10px] uppercase">Weight</span>
-                <span className="text-heritage-cream font-medium font-mono block mt-0.5">{product.weight}</span>
-              </div>
-              <div className="bg-heritage-dark/80 p-2.5 rounded-lg border border-heritage-border-light">
-                <span className="text-heritage-muted block text-[10px] uppercase">Dimensions</span>
-                <span className="text-heritage-cream font-medium block mt-0.5">{product.dimensions}</span>
-              </div>
-              <div className="bg-heritage-dark/80 p-2.5 rounded-lg border border-heritage-border-light">
-                <span className="text-heritage-muted block text-[10px] uppercase">Foundry Stock</span>
-                <span className="text-emerald-400 font-medium flex items-center gap-1 mt-0.5">
-                  <CheckCircle className="w-3.5 h-3.5" />
-                  <span>Ready for Dispatch</span>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Authentic Care Instructions */}
-          <div className="bg-heritage-moss/40 border border-heritage-border rounded-xl p-4 sm:p-5 space-y-2">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-amber-200">
-              Heirloom Maintenance & Care
-            </h3>
-            <p className="text-xs text-heritage-cream/90 leading-relaxed">
-              {product.careGuide}
+            <p className="text-lg sm:text-xl font-normal text-heritage-cream/90 pt-1">
+              {formatPaiseToInr(product.pricePaise)}
             </p>
           </div>
 
-          {/* Desktop Purchase Controls (>= 768px) */}
-          <div className="hidden md:flex items-center gap-4 pt-4 border-t border-heritage-border">
-            {/* Quantity Stepper (min 44px tap targets) */}
-            <div className="flex items-center border border-heritage-border rounded-pill bg-heritage-surface overflow-hidden">
+          {/* Finish / Color Swatches */}
+          <div className="space-y-2 pt-2">
+            <span className="text-xs text-heritage-cream/80 block">
+              Finish: <strong className="text-heritage-cream font-medium">{selectedFinish.name}</strong>
+            </span>
+            <div className="flex items-center gap-3">
+              {FINISHES.map((finish) => {
+                const isSelected = selectedFinish.id === finish.id;
+                return (
+                  <button
+                    key={finish.id}
+                    type="button"
+                    onClick={() => setSelectedFinish(finish)}
+                    className={`w-7 h-7 rounded-full transition-all flex items-center justify-center p-0.5 ${
+                      isSelected
+                        ? 'ring-2 ring-heritage-cream ring-offset-2 ring-offset-heritage-dark'
+                        : 'opacity-80 hover:opacity-100'
+                    }`}
+                    aria-label={`Select ${finish.name} finish`}
+                    title={finish.name}
+                  >
+                    <span
+                      className="w-full h-full rounded-full border border-black/30"
+                      style={{ backgroundColor: finish.bg }}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Specifications Pills */}
+          <div className="space-y-2 pt-1">
+            <span className="text-xs text-heritage-cream/80 block">Specifications</span>
+            <div className="flex flex-wrap gap-2 text-xs text-heritage-cream/90">
+              <span className="px-3 py-1.5 rounded-full bg-heritage-surface border border-heritage-border">
+                {product.weight}
+              </span>
+              <span className="px-3 py-1.5 rounded-full bg-heritage-surface border border-heritage-border">
+                {product.dimensions}
+              </span>
+              <span className="px-3 py-1.5 rounded-full bg-heritage-surface border border-heritage-border">
+                Panchaloha Bell Metal
+              </span>
+            </div>
+          </div>
+
+          {/* Stepper + Add to Cart Row */}
+          <div className="pt-2 flex items-center gap-3">
+            {/* Stepper */}
+            <div className="flex items-center bg-heritage-surface border border-heritage-border rounded-full px-3 py-1.5">
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="min-h-tap min-w-tap flex items-center justify-center text-heritage-cream hover:bg-heritage-dark transition-colors"
+                className="w-8 h-8 flex items-center justify-center text-heritage-cream/80 hover:text-heritage-cream transition-colors"
                 aria-label="Decrease quantity"
               >
-                <Minus className="w-4 h-4" />
+                <Minus className="w-3.5 h-3.5" />
               </button>
-              <span className="w-10 text-center text-sm font-semibold text-heritage-cream font-mono">
+              <span className="w-8 text-center text-sm font-medium text-heritage-cream">
                 {quantity}
               </span>
               <button
                 type="button"
                 onClick={() => setQuantity(quantity + 1)}
-                className="min-h-tap min-w-tap flex items-center justify-center text-heritage-cream hover:bg-heritage-dark transition-colors"
+                className="w-8 h-8 flex items-center justify-center text-heritage-cream/80 hover:text-heritage-cream transition-colors"
                 aria-label="Increase quantity"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            {/* Main Add to Cart Button (min 44px tap target) */}
+            {/* Add to Cart */}
             <button
               type="button"
               onClick={handleAddToCart}
-              className="button-primary flex-1 min-h-tap text-sm font-medium flex items-center justify-center gap-2 shadow-xl active:scale-95"
+              className="flex-1 min-h-[44px] rounded-full border border-heritage-cream/30 hover:border-heritage-cream bg-transparent hover:bg-heritage-surface text-heritage-cream font-medium text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
             >
               <ShoppingBag className="w-4 h-4" />
-              <span>Add to Cart • {formatPaiseToInr(product.pricePaise * quantity)}</span>
+              <span>Add to cart</span>
             </button>
           </div>
 
-          {/* Reassurance Badges */}
-          <div className="flex items-center gap-4 text-xs text-heritage-muted pt-2">
-            <div className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>100% Panchaloha Guarantee</span>
+          {/* Buy It Now Full Width Warm Cream CTA */}
+          <div>
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              className="w-full min-h-[46px] rounded-full bg-[#EDE4D0] hover:bg-[#F2EBD9] text-[#1a1b14] font-medium text-sm sm:text-base py-3 px-6 shadow-md transition-all active:scale-[0.98] flex items-center justify-center"
+            >
+              Buy it now
+            </button>
+          </div>
+
+          {/* Product Description */}
+          <div className="pt-4 text-xs sm:text-sm text-heritage-cream/80 leading-relaxed space-y-3">
+            <p>{product.description}</p>
+            <p className="italic text-heritage-muted text-xs">
+              Handmade by hereditary sthapatis in Kumbakonam using ancient lost-wax casting.
+            </p>
+          </div>
+
+          {/* 4-Reassurance Icons Row (Shopify Heritage demo style) */}
+          <div className="grid grid-cols-4 border-t border-b border-heritage-border py-6 text-center">
+            <div className="flex flex-col items-center gap-2 px-1 border-r border-heritage-border/70">
+              <Sparkles className="w-5 h-5 text-heritage-cream/80" />
+              <span className="text-[10px] uppercase tracking-wider text-heritage-cream/90 font-medium leading-tight">
+                Made With<br />Care
+              </span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Truck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Tracked Courier Dispatch</span>
+            <div className="flex flex-col items-center gap-2 px-1 border-r border-heritage-border/70">
+              <ShieldCheck className="w-5 h-5 text-heritage-cream/80" />
+              <span className="text-[10px] uppercase tracking-wider text-heritage-cream/90 font-medium leading-tight">
+                Heirloom<br />Quality
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2 px-1 border-r border-heritage-border/70">
+              <Flame className="w-5 h-5 text-heritage-cream/80" />
+              <span className="text-[10px] uppercase tracking-wider text-heritage-cream/90 font-medium leading-tight">
+                Consecrated<br />Alloy
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2 px-1">
+              <Hammer className="w-5 h-5 text-heritage-cream/80" />
+              <span className="text-[10px] uppercase tracking-wider text-heritage-cream/90 font-medium leading-tight">
+                Foundry<br />Direct
+              </span>
+            </div>
+          </div>
+
+          {/* Clean Accordions: Materials, Care, Details */}
+          <div className="divide-y divide-heritage-border/70 text-xs sm:text-sm">
+            {/* Materials */}
+            <div className="py-3.5">
+              <button
+                type="button"
+                onClick={() => setMaterialsOpen(!materialsOpen)}
+                className="w-full flex items-center justify-between text-left font-medium text-heritage-cream hover:text-amber-200 transition-colors"
+                aria-expanded={materialsOpen}
+              >
+                <span>Materials</span>
+                <ChevronDown
+                  className={`w-4 h-4 text-heritage-muted transition-transform duration-200 ${
+                    materialsOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              {materialsOpen && (
+                <p className="mt-2 text-xs text-heritage-cream/80 leading-relaxed">
+                  Authentic Kumbakonam Panchaloha and bronze alloy crafted from copper, tin, and zinc following traditional temple foundry standards.
+                </p>
+              )}
+            </div>
+
+            {/* Care */}
+            <div className="py-3.5">
+              <button
+                type="button"
+                onClick={() => setCareOpen(!careOpen)}
+                className="w-full flex items-center justify-between text-left font-medium text-heritage-cream hover:text-amber-200 transition-colors"
+                aria-expanded={careOpen}
+              >
+                <span>Care</span>
+                <ChevronDown
+                  className={`w-4 h-4 text-heritage-muted transition-transform duration-200 ${
+                    careOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              {careOpen && (
+                <p className="mt-2 text-xs text-heritage-cream/80 leading-relaxed">
+                  {product.careGuide || 'Clean periodically with tamarind paste or pitambari powder, wash with clean water and dry thoroughly with a soft cloth.'}
+                </p>
+              )}
+            </div>
+
+            {/* Details */}
+            <div className="py-3.5">
+              <button
+                type="button"
+                onClick={() => setDetailsOpen(!detailsOpen)}
+                className="w-full flex items-center justify-between text-left font-medium text-heritage-cream hover:text-amber-200 transition-colors"
+                aria-expanded={detailsOpen}
+              >
+                <span>Details</span>
+                <ChevronDown
+                  className={`w-4 h-4 text-heritage-muted transition-transform duration-200 ${
+                    detailsOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              {detailsOpen && (
+                <div className="mt-2 text-xs text-heritage-cream/80 space-y-1">
+                  <p>Weight: {product.weight}</p>
+                  <p>Dimensions: {product.dimensions}</p>
+                  <p>Alloy Composition: {product.alloyDescription}</p>
+                  <p>Origin: Kumbakonam, Tamil Nadu</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Sticky "Add to Cart" Action Bar (< 768px) */}
-      {/* Strict: min 44x44px tap targets, prevents unnecessary scrolling on small viewports */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-heritage-darker/95 backdrop-blur-md border-t border-heritage-border p-3 flex items-center justify-between gap-3 shadow-2xl">
-        <div className="flex flex-col">
-          <span className="text-[10px] uppercase text-heritage-muted font-mono tracking-wider">
-            Total Price
-          </span>
-          <span className="text-base font-semibold text-heritage-cream font-mono">
-            {formatPaiseToInr(product.pricePaise * quantity)}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {/* Mobile Quantity Stepper */}
-          <div className="flex items-center border border-heritage-border rounded-pill bg-heritage-surface overflow-hidden">
-            <button
-              type="button"
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="min-h-tap min-w-tap flex items-center justify-center text-heritage-cream hover:bg-heritage-dark transition-colors px-1"
-              aria-label="Decrease quantity"
-            >
-              <Minus className="w-3.5 h-3.5" />
-            </button>
-            <span className="w-7 text-center text-xs font-semibold text-heritage-cream font-mono">
-              {quantity}
-            </span>
-            <button
-              type="button"
-              onClick={() => setQuantity(quantity + 1)}
-              className="min-h-tap min-w-tap flex items-center justify-center text-heritage-cream hover:bg-heritage-dark transition-colors px-1"
-              aria-label="Increase quantity"
-            >
-              <Plus className="w-3.5 h-3.5" />
-            </button>
+      {/* "You may also like" Section */}
+      {relatedProducts.length > 0 && (
+        <section className="mt-20 pt-10 border-t border-heritage-border-light">
+          <h2 className="font-heading text-xl sm:text-2xl font-normal text-heritage-cream mb-6">
+            You may also like
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {relatedProducts.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
           </div>
+        </section>
+      )}
 
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className="min-h-tap px-4 py-2.5 rounded-pill bg-heritage-cream text-heritage-dark hover:bg-heritage-cream-hover font-semibold text-xs flex items-center justify-center gap-1.5 shadow-lg active:scale-95"
-            aria-label="Add to cart"
-          >
-            <ShoppingBag className="w-4 h-4" />
-            <span>Add to Cart</span>
-          </button>
+      {/* Mobile Sticky Bottom Mini-Bar (Shopify Heritage demo style) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#161712]/95 backdrop-blur-md border-t border-heritage-border px-4 py-2.5 flex items-center justify-between gap-3 shadow-2xl">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-heritage-surface shrink-0 border border-heritage-border">
+            <Image
+              src={images[0]}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="44px"
+            />
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-medium text-heritage-cream truncate">
+              {product.name}
+            </p>
+            <p className="text-[11px] text-heritage-cream/70 truncate">
+              {selectedFinish.name} • {formatPaiseToInr(product.pricePaise)}
+            </p>
+          </div>
         </div>
+
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          className="w-11 h-11 rounded-full bg-[#EDE4D0] text-[#1a1b14] flex items-center justify-center shadow-lg active:scale-90 transition-transform shrink-0"
+          aria-label="Add to cart"
+        >
+          <ShoppingBag className="w-5 h-5" />
+        </button>
       </div>
     </div>
   );

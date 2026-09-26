@@ -204,7 +204,7 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
             <button
               type="button"
               onClick={handleBuyNow}
-              className="w-full min-h-[46px] rounded-full bg-[#EDE4D0] hover:bg-[#F2EBD9] text-[#1a1b14] font-medium text-sm sm:text-base py-3 px-6 shadow-md transition-all active:scale-[0.98] flex items-center justify-center"
+              className="button-primary w-full text-sm sm:text-base"
             >
               Buy it now
             </button>
@@ -335,7 +335,7 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
       )}
 
       {/* Mobile Sticky Bottom Mini-Bar (Shopify Heritage demo style) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#161712]/95 backdrop-blur-md border-t border-heritage-border px-4 py-2.5 flex items-center justify-between gap-3 shadow-2xl">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-heritage-darker/95 backdrop-blur-md border-t border-heritage-border px-4 py-2.5 flex items-center justify-between gap-3 shadow-2xl">
         <div className="flex items-center gap-3 min-w-0">
           <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-heritage-surface shrink-0 border border-heritage-border">
             <Image
@@ -359,7 +359,7 @@ export function ProductDetailView({ product, relatedProducts = [] }: ProductDeta
         <button
           type="button"
           onClick={handleAddToCart}
-          className="w-11 h-11 rounded-full bg-[#EDE4D0] text-[#1a1b14] flex items-center justify-center shadow-lg active:scale-90 transition-transform shrink-0"
+          className="w-11 h-11 rounded-full bg-heritage-cream text-heritage-dark flex items-center justify-center shadow-lg active:scale-90 transition-transform shrink-0"
           aria-label="Add to cart"
         >
           <ShoppingBag className="w-5 h-5" />

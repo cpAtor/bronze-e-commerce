@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
+import Image from 'next/image';
+import { X, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import { useCart } from './CartContext';
 import { formatPaiseToInr } from '@/lib/utils';
 
@@ -15,7 +15,7 @@ export function CartDrawer() {
     openCheckout,
     updateQuantity,
     removeFromCart,
-    subtotalPaise,
+    itemCount,
     totalPaise,
   } = useCart();
 
@@ -24,7 +24,7 @@ export function CartDrawer() {
   const [discountApplied, setDiscountApplied] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Close on Escape
+  // Close drawer on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -35,7 +35,7 @@ export function CartDrawer() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, closeCart]);
 
-  // Lock body scroll when open
+  // Trap focus inside drawer when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -49,18 +49,16 @@ export function CartDrawer() {
 
   if (!isOpen) return null;
 
-  const totalItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
-
   return (
     <div
       className="fixed inset-0 z-50 flex justify-end"
       role="dialog"
       aria-modal="true"
-      aria-label="Shopping Cart"
+      aria-label="Your Shopping Cart"
     >
-      {/* Backdrop */}
+      {/* Dimmed backdrop */}
       <div
-        className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
         onClick={closeCart}
         aria-hidden="true"
       />
@@ -68,24 +66,24 @@ export function CartDrawer() {
       {/* Drawer Container */}
       <div
         ref={drawerRef}
-        className="relative w-full max-w-md bg-[#1f2019] text-[#f4efe6] border-l border-white/10 h-full z-10 flex flex-col justify-between shadow-2xl overflow-hidden animate-in slide-in-from-right duration-300"
+        className="relative w-full max-w-md bg-heritage-dark text-heritage-cream border-l border-heritage-border h-full z-10 flex flex-col justify-between shadow-2xl overflow-hidden animate-in slide-in-from-right duration-300"
       >
         {/* Header matching Shopify Heritage: Cart (1) [X] */}
-        <div className="px-6 py-5 flex items-center justify-between border-b border-white/10 bg-[#1f2019]">
+        <div className="px-6 py-5 flex items-center justify-between border-b border-heritage-border-light bg-heritage-dark">
           <div className="flex items-center gap-2">
-            <h2 className="font-heading text-xl font-normal text-[#f4efe6]">
+            <h2 className="font-heading text-xl font-normal text-heritage-cream">
               Cart
             </h2>
-            {totalItemCount > 0 && (
-              <span className="w-5 h-5 rounded-full bg-white/20 text-[#f4efe6] text-xs flex items-center justify-center font-medium">
-                {totalItemCount}
+            {itemCount > 0 && (
+              <span className="w-5 h-5 rounded-full bg-heritage-surface text-heritage-cream text-xs flex items-center justify-center font-medium border border-heritage-border">
+                {itemCount}
               </span>
             )}
           </div>
           <button
             type="button"
             onClick={closeCart}
-            className="p-1 text-[#f4efe6]/80 hover:text-[#f4efe6] transition-colors rounded-full hover:bg-white/10"
+            className="p-1 text-heritage-muted hover:text-heritage-cream transition-colors rounded-full hover:bg-heritage-surface"
             aria-label="Close cart"
           >
             <X className="w-5 h-5" />
@@ -96,10 +94,10 @@ export function CartDrawer() {
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
           {items.length === 0 ? (
             <div className="py-20 text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto text-heritage-muted">
+              <div className="w-16 h-16 rounded-full bg-heritage-surface flex items-center justify-center mx-auto text-heritage-muted border border-heritage-border">
                 <ShoppingBag className="w-8 h-8 opacity-40" />
               </div>
-              <p className="text-base font-normal text-[#f4efe6]">Your cart is empty</p>
+              <p className="text-base font-normal text-heritage-cream">Your cart is empty</p>
               <button
                 type="button"
                 onClick={closeCart}
@@ -113,7 +111,7 @@ export function CartDrawer() {
               {items.map(({ product, quantity }) => (
                 <div key={product.id} className="flex gap-4 items-start">
                   {/* Square thumbnail */}
-                  <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-white/5 shrink-0 border border-white/10">
+                  <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-heritage-surface shrink-0 border border-heritage-border">
                     {product.images && product.images[0] ? (
                       <Image
                         src={product.images[0]}
@@ -123,7 +121,7 @@ export function CartDrawer() {
                         sizes="64px"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-xs text-white/40">
+                      <div className="w-full h-full flex items-center justify-center text-xs text-heritage-subtle">
                         Bronze
                       </div>
                     )}
@@ -136,41 +134,41 @@ export function CartDrawer() {
                         <Link
                           href={`/shop/${product.slug}`}
                           onClick={closeCart}
-                          className="text-sm font-medium text-[#f4efe6] hover:underline line-clamp-1"
+                          className="text-sm font-medium text-heritage-cream hover:underline line-clamp-1"
                         >
                           {product.name}
                         </Link>
-                        <p className="text-xs text-[#f4efe6]/60 mt-0.5">
+                        <p className="text-xs text-heritage-subtle mt-0.5">
                           {product.weight}
                         </p>
-                        <p className="text-xs text-[#f4efe6]/80 mt-1">
+                        <p className="text-xs text-heritage-muted mt-1">
                           {formatPaiseToInr(product.pricePaise)}
                         </p>
                       </div>
 
-                      <div className="text-sm font-normal text-[#f4efe6] shrink-0 text-right">
+                      <div className="text-sm font-normal text-heritage-cream shrink-0 text-right">
                         {formatPaiseToInr(product.pricePaise * quantity)}
                       </div>
                     </div>
 
                     {/* Stepper + Trash icon */}
                     <div className="flex items-center gap-3 mt-3">
-                      <div className="flex items-center bg-[#2c2d25] border border-white/10 rounded-full px-2.5 py-1">
+                      <div className="flex items-center bg-heritage-surface border border-heritage-border rounded-full px-2.5 py-1">
                         <button
                           type="button"
                           onClick={() => updateQuantity(product.id, quantity - 1)}
-                          className="w-6 h-6 flex items-center justify-center text-[#f4efe6]/80 hover:text-[#f4efe6]"
+                          className="w-6 h-6 flex items-center justify-center text-heritage-muted hover:text-heritage-cream"
                           aria-label={`Decrease quantity of ${product.name}`}
                         >
                           <Minus className="w-3.5 h-3.5" />
                         </button>
-                        <span className="w-6 text-center text-xs font-medium text-[#f4efe6]">
+                        <span className="w-6 text-center text-xs font-medium text-heritage-cream">
                           {quantity}
                         </span>
                         <button
                           type="button"
                           onClick={() => updateQuantity(product.id, quantity + 1)}
-                          className="w-6 h-6 flex items-center justify-center text-[#f4efe6]/80 hover:text-[#f4efe6]"
+                          className="w-6 h-6 flex items-center justify-center text-heritage-muted hover:text-heritage-cream"
                           aria-label={`Increase quantity of ${product.name}`}
                         >
                           <Plus className="w-3.5 h-3.5" />
@@ -180,7 +178,7 @@ export function CartDrawer() {
                       <button
                         type="button"
                         onClick={() => removeFromCart(product.id)}
-                        className="p-1.5 text-white/50 hover:text-white transition-colors"
+                        className="p-1.5 text-heritage-subtle hover:text-heritage-cream transition-colors"
                         aria-label={`Remove ${product.name} from cart`}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -195,13 +193,13 @@ export function CartDrawer() {
 
         {/* Footer Summary matching screenshot */}
         {items.length > 0 && (
-          <div className="px-6 py-5 border-t border-white/10 space-y-4 bg-[#1f2019]">
+          <div className="px-6 py-5 border-t border-heritage-border-light space-y-4 bg-heritage-dark">
             {/* Discount Accordion */}
-            <div className="border-b border-white/10 pb-3">
+            <div className="border-b border-heritage-border-light pb-3">
               <button
                 type="button"
                 onClick={() => setDiscountOpen(!discountOpen)}
-                className="w-full flex items-center justify-between text-xs text-[#f4efe6]/80 hover:text-[#f4efe6]"
+                className="w-full flex items-center justify-between text-xs text-heritage-muted hover:text-heritage-cream"
               >
                 <span>Discount</span>
                 <span className="text-base font-light">{discountOpen ? '−' : '+'}</span>
@@ -213,7 +211,7 @@ export function CartDrawer() {
                     value={discountCode}
                     onChange={(e) => setDiscountCode(e.target.value)}
                     placeholder="Coupon code"
-                    className="flex-1 bg-white/5 border border-white/20 rounded-md px-3 py-1.5 text-xs text-[#f4efe6] uppercase placeholder:normal-case placeholder:text-white/40 focus:outline-none focus:border-white/60"
+                    className="flex-1 bg-heritage-surface border border-heritage-border rounded-md px-3 py-1.5 text-xs text-heritage-cream uppercase placeholder:normal-case placeholder:text-heritage-subtle focus:outline-none focus:border-heritage-cream"
                   />
                   <button
                     type="button"
@@ -234,12 +232,12 @@ export function CartDrawer() {
             {/* Estimated Total */}
             <div className="space-y-1">
               <div className="flex justify-between items-baseline">
-                <span className="text-sm text-[#f4efe6]/90">Estimated total</span>
-                <span className="text-lg font-medium text-[#f4efe6]">
+                <span className="text-sm text-heritage-muted">Estimated total</span>
+                <span className="text-lg font-medium text-heritage-cream">
                   {formatPaiseToInr(totalPaise)}
                 </span>
               </div>
-              <p className="text-xs text-[#f4efe6]/60">
+              <p className="text-xs text-heritage-subtle">
                 Taxes and shipping calculated at checkout.
               </p>
             </div>
@@ -248,7 +246,7 @@ export function CartDrawer() {
             <button
               type="button"
               onClick={openCheckout}
-              className="w-full min-h-[48px] rounded-full bg-[#EDE4D0] hover:bg-[#F2EBD9] text-[#1a1b14] font-medium text-base flex items-center justify-center transition-all shadow-md active:scale-[0.98]"
+              className="button-primary w-full text-base font-medium py-3.5"
             >
               Check out
             </button>

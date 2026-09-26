@@ -34,19 +34,19 @@ export function Footer() {
             </h4>
             <ul className="space-y-3 text-sm text-heritage-muted">
               <li>
-                <a href="#shop" className="hover:text-heritage-cream transition-colors">
+                <Link href="/shop" className="hover:text-heritage-cream transition-colors">
                   Artisanal Wares
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#custom" className="hover:text-heritage-cream transition-colors">
+                <Link href="/custom-work" className="hover:text-heritage-cream transition-colors">
                   Temple Commissions
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#craft" className="hover:text-heritage-cream transition-colors">
+                <Link href="/custom-work" className="hover:text-heritage-cream transition-colors">
                   Panchaloha Metallurgy
-                </a>
+                </Link>
               </li>
               <li>
                 <Link href="/orders" className="hover:text-heritage-cream transition-colors">

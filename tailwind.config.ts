@@ -15,12 +15,17 @@ const config: Config = {
           darker: '#161811',
           surface: '#2A2C21',
           moss: '#46493C', // Accent background (Scheme 3: rgb(70 73 60))
+          contrast: '#383A30', // Split section contrast
           cream: '#F6EDDD', // Primary foreground (rgb(246 237 221))
           'cream-hover': '#E1D9CB',
           muted: 'rgba(246, 237, 221, 0.65)',
           subtle: 'rgba(246, 237, 221, 0.40)',
           border: 'rgba(246, 237, 221, 0.18)',
           'border-light': 'rgba(246, 237, 221, 0.10)',
+          // Authentic Panchaloha finishes
+          bronze: '#8C6D58',
+          gold: '#C8A951',
+          patina: '#4A7C59',
         },
       },
       fontFamily: {
